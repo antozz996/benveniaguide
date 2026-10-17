@@ -14,6 +14,12 @@ const knownArticlePaths = new Set(
 
 const reservedSegments = new Set(["opengraph-image"]);
 
+/**
+ * Path che non corrisponde a nessuna route: il router risponde con un vero
+ * 404 e la UI di app/not-found.tsx. Non creare mai una route con questo path.
+ */
+const NOT_FOUND_REWRITE_TARGET = "/risorse-slug-non-trovato";
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -24,7 +30,9 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  return NextResponse.rewrite(new URL("/_not-found", request.url));
+  return NextResponse.rewrite(
+    new URL(NOT_FOUND_REWRITE_TARGET, request.url),
+  );
 }
 
 export const config = {
