@@ -46,9 +46,11 @@ Senza le variabili Resend: in sviluppo l'API risponde `delivery: "dev"`
 ## Contenuti e dati non inventati
 
 Il sito non pubblica prezzi, recensioni, statistiche o dati societari non
-verificati. I punti da completare prima del lancio sono elencati in
-`lib/site.ts` (`pendingLaunchConfig`): ragione sociale, P.IVA, recapiti
-ufficiali, revisione legale delle pagine privacy/cookie.
+verificati. L'attività non è formalizzata: privacy e cookie policy
+identificano il titolare come "Benvenia Guide", contattabile via
+`info@benveniaguide.it`, e `legalName`/`vatNumber` in `lib/site.ts` restano
+`null`. Se l'attività verrà costituita, aggiornare quei campi, la sede e il
+titolare nell'informativa (vedi `pendingLaunchConfig`).
 
 ## Deploy su Vercel
 

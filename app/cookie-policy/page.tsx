@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { Container } from "@/components/ui/Container";
-import { DraftNotice } from "@/components/legal/DraftNotice";
 import { CookiePreferencesButton } from "@/components/consent/CookiePreferencesButton";
 import { buildMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
@@ -42,8 +41,6 @@ export default function CookiePolicyPage() {
       <section className="pb-20 sm:pb-28">
         <Container>
           <div className="mx-auto max-w-3xl">
-            <DraftNotice />
-
             <div className="mt-10 space-y-10">
               <div>
                 <h2 className={sectionTitle}>
@@ -160,9 +157,7 @@ export default function CookiePolicyPage() {
                   .
                 </p>
                 <p className={paragraph}>
-                  Documento aggiornato al 17 ottobre 2026, in versione di
-                  bozza come l&apos;informativa privacy: sarà revisionato prima
-                  del lancio pubblico.
+                  Documento aggiornato al 17 ottobre 2026.
                 </p>
               </div>
             </div>

@@ -12,16 +12,16 @@ export const siteConfig = {
   brand: "Benvenia",
   productName: "Benvenia Guide",
   fullName: "Benvenia Guide",
-  legalName: null as string | null, // DA CONFIGURARE: ragione sociale prima del go-live
-  vatNumber: null as string | null, // DA CONFIGURARE: partita IVA prima del go-live
+  legalName: null as string | null, // L'attività non è formalizzata: resta null finché non esiste una ragione sociale
+  vatNumber: null as string | null, // L'attività non è formalizzata: resta null finché non esiste una partita IVA
   url: siteUrl,
   locale: "it_IT",
   language: "it",
   domain: "www.benveniaguide.it",
   contact: {
     email: "info@benveniaguide.it",
-    phone: null as string | null, // DA CONFIGURARE: recapito telefonico ufficiale
-    address: null as string | null, // DA CONFIGURARE: sede legale
+    phone: null as string | null, // Nessun recapito telefonico pubblicato
+    address: null as string | null, // Nessuna sede pubblicata
   },
   /** Data di ultima revisione dei contenuti (costante: evita valori non deterministici in render). */
   lastUpdated: "2026-10-17",
@@ -82,11 +82,10 @@ export const footerNavigation: { title: string; items: NavItem[] }[] = [
 ];
 
 /**
- * Elenco dei blocchi di configurazione commerciale da completare prima del go-live.
- * Documentato anche nei materiali di lancio; non inventare questi dati nel sito.
+ * Configurazione commerciale da completare solo se e quando l'attività verrà
+ * formalizzata (società/partita IVA). Con l'attività informale la privacy
+ * identifica il titolare come "Benvenia Guide", contattabile via email.
  */
 export const pendingLaunchConfig = [
-  "Ragione sociale e partita IVA (società non ancora costituita)",
-  "Sede legale nei recapiti ufficiali",
-  "Informativa privacy approvata e revisione legale",
+  "Se l'attività viene formalizzata: aggiornare legalName, vatNumber, sede e il titolare in privacy",
 ] as const;

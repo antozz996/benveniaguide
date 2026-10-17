@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { Container } from "@/components/ui/Container";
-import { DraftNotice } from "@/components/legal/DraftNotice";
 import { buildMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 
@@ -37,16 +36,11 @@ export default function PrivacyPage() {
       <section className="pb-20 sm:pb-28">
         <Container>
           <div className="mx-auto max-w-3xl">
-            <DraftNotice />
-
             <div className="mt-10 space-y-10">
               <div>
                 <h2 className={sectionTitle}>1. Titolare del trattamento</h2>
                 <p className={paragraph}>
-                  Il titolare del trattamento è il gestore di Benvenia Guide.
-                  I dati societari completi (ragione sociale, partita IVA e
-                  sede) non sono ancora pubblicati: saranno indicati in questa
-                  sezione prima del lancio definitivo del sito. Per qualsiasi
+                  Il titolare del trattamento è Benvenia Guide. Per qualsiasi
                   richiesta relativa ai dati personali puoi scrivere a{" "}
                   <a
                     href="mailto:info@benveniaguide.it"
@@ -105,10 +99,9 @@ export default function PrivacyPage() {
                 <h2 className={sectionTitle}>4. Conservazione</h2>
                 <p className={paragraph}>
                   Le richieste ricevute vengono conservate per il tempo
-                  necessario a gestirle e a documentare l&apos;attività
-                  svolta. La durata precisa di conservazione sarà definita
-                  con la revisione legale di questa informativa e comunicata
-                  in questa pagina.
+                  necessario a gestirle e a documentare l&apos;attività svolta.
+                  Puoi chiedere in qualsiasi momento la cancellazione dei tuoi
+                  dati quando non siano più necessari alle finalità descritte.
                 </p>
               </div>
 
@@ -143,9 +136,8 @@ export default function PrivacyPage() {
                 <p className={paragraph}>
                   Alcuni fornitori possono trattare dati al di fuori
                   dell&apos;Unione Europea. Ove necessario, i trasferimenti si
-                  basano su garanzie adeguate previste dal GDPR (come le
-                  clausole contrattuali standard). L&apos;informativa finale
-                  preciserà l&apos;assetto esatto dei trasferimenti.
+                  basano su garanzie adeguate previste dal GDPR, come le
+                  clausole contrattuali standard.
                 </p>
               </div>
 
@@ -177,10 +169,9 @@ export default function PrivacyPage() {
               <div>
                 <h2 className={sectionTitle}>8. Aggiornamenti</h2>
                 <p className={paragraph}>
-                  Questa informativa è una bozza di lavoro aggiornata al 17
-                  ottobre 2026. La versione definitiva, con tutti i
-                  riferimenti societari, sarà pubblicata prima del lancio
-                  pubblico del sito.
+                  Questa informativa è aggiornata al 17 ottobre 2026. In caso
+                  di modifiche pubblicheremo la nuova versione in questa
+                  pagina, con la data di aggiornamento.
                 </p>
               </div>
             </div>
