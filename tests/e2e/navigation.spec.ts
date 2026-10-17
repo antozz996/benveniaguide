@@ -7,6 +7,7 @@ const pages = [
   { path: "/funzionalita", title: "Funzionalit" },
   { path: "/soluzioni", title: "Soluzioni" },
   { path: "/prezzi", title: "Prezzi" },
+  { path: "/risorse", title: "Risorse" },
   { path: "/contatti", title: "Contatti" },
   { path: "/privacy", title: "privacy" },
   { path: "/cookie-policy", title: "Cookie" },
@@ -40,6 +41,41 @@ test.describe("Pagine informative", () => {
   });
 });
 
+test.describe("Risorse", () => {
+  test("la pagina articolo risponde 200 con titolo, JSON-LD Article e link utili", async ({
+    page,
+  }) => {
+    await seedConsent(page);
+    const response = await page.goto(
+      "/risorse/ridurre-domande-ripetitive-ospiti",
+    );
+    expect(response?.status()).toBe(200);
+
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    expect(await page.title()).toContain("Benvenia Guide");
+
+    const jsonLd = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents();
+    const joined = jsonLd.join("\n");
+    expect(joined).toContain('"Article"');
+    expect(joined).toContain("BreadcrumbList");
+
+    await expect(
+      page.getByRole("link", { name: /Tutti gli articoli/ }),
+    ).toBeVisible();
+  });
+
+  test("uno slug inesistente restituisce la 404 personalizzata", async ({
+    page,
+  }) => {
+    await seedConsent(page);
+    const response = await page.goto("/risorse/articolo-che-non-esiste");
+    expect(response?.status()).toBe(404);
+    await expect(page.getByText("Errore 404")).toBeVisible();
+  });
+});
+
 test.describe("SEO tecnico", () => {
   test("sitemap.xml elenca le pagine principali", async ({ request }) => {
     const response = await request.get("/sitemap.xml");
@@ -47,6 +83,8 @@ test.describe("SEO tecnico", () => {
     const body = await response.text();
     expect(body).toContain("/demo");
     expect(body).toContain("/contatti");
+    expect(body).toContain("/risorse");
+    expect(body).toContain("/risorse/ridurre-domande-ripetitive-ospiti");
   });
 
   test("robots.txt consente la scansione e indica la sitemap", async ({
@@ -69,6 +107,7 @@ test.describe("SEO tecnico", () => {
       .allTextContents();
     expect(jsonLd.length).toBeGreaterThanOrEqual(2);
     expect(jsonLd.join("\n")).toContain("Organization");
+    expect(jsonLd.join("\n")).toContain('"Service"');
   });
 });
 

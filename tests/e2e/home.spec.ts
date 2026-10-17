@@ -25,6 +25,7 @@ test.describe("Home page", () => {
     const nav = page.getByRole("navigation", { name: "Navigazione principale" });
     await expect(nav.getByRole("link", { name: "Demo" })).toBeVisible();
     await expect(nav.getByRole("link", { name: "Prezzi" })).toBeVisible();
+    await expect(nav.getByRole("link", { name: "Risorse" })).toBeVisible();
 
     await nav.getByRole("link", { name: "Demo" }).click();
     await expect(page).toHaveURL(/\/demo$/);
@@ -44,8 +45,28 @@ test.describe("Home page", () => {
     ).toBeVisible();
   });
 
+  test("la sezione Risorse porta agli articoli", async ({ page }) => {
+    const risorseSection = page
+      .locator("section")
+      .filter({ hasText: "Idee e guide pratiche per chi accoglie." });
+    await expect(
+      risorseSection.getByRole("heading", {
+        name: "Idee e guide pratiche per chi accoglie.",
+      }),
+    ).toBeVisible();
+
+    await risorseSection
+      .getByRole("link", { name: /Come ridurre le domande ripetitive/ })
+      .click();
+    await expect(page).toHaveURL(/\/risorse\/ridurre-domande-ripetitive-ospiti$/);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  });
+
   test("il footer espone i link informativi", async ({ page }) => {
     const footer = page.getByRole("contentinfo");
+    await expect(
+      footer.getByRole("link", { name: "Risorse" }).first(),
+    ).toBeVisible();
     await expect(
       footer.getByRole("link", { name: "Privacy" }).first(),
     ).toBeVisible();

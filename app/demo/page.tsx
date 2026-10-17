@@ -24,6 +24,11 @@ export const metadata: Metadata = buildMetadata({
     "Esplora la Guest Guide dimostrativa di Benvenia Guide: naviga benvenuto, soggiorno, territorio e contatti come farebbe un tuo ospite. Demo interattiva su smartphone, anche a schermo intero.",
   path: "/demo",
   ogTitle: "Demo interattiva · Benvenia Guide",
+  keywords: [
+    "demo guest guide",
+    "guida digitale esempio",
+    "guest guide dimostrativa",
+  ],
 });
 
 const focusPoints = [

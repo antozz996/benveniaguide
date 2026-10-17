@@ -31,6 +31,13 @@ export const metadata: Metadata = {
     title: `${siteConfig.productName} — La Guest Guide digitale per la tua struttura`,
     description: siteConfig.description,
   },
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+        },
+      }
+    : {}),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

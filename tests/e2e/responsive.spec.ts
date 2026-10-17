@@ -4,10 +4,11 @@ import { seedConsent } from "./helpers";
 const viewports = [
   { width: 375, height: 812, label: "mobile" },
   { width: 768, height: 1024, label: "tablet" },
+  { width: 1024, height: 768, label: "laptop" },
   { width: 1440, height: 900, label: "desktop" },
 ] as const;
 
-const checkPages = ["/", "/demo", "/contatti", "/prezzi"] as const;
+const checkPages = ["/", "/demo", "/contatti", "/prezzi", "/risorse"] as const;
 
 for (const viewport of viewports) {
   test.describe(`Responsività ${viewport.label} (${viewport.width}px)`, () => {

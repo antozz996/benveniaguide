@@ -24,11 +24,13 @@ import { CtaLink } from "@/components/ui/CtaLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { benefits, problemFragments, problemItems, type BenefitItem } from "@/data/home";
+import { articles } from "@/data/articles";
 import { homeFaqs } from "@/data/faqs";
 import { homeSteps } from "@/data/process";
 import { solutionSegments } from "@/data/solutions";
 import {
   faqJsonLd,
+  serviceJsonLd,
   softwareApplicationJsonLd,
 } from "@/lib/structured-data";
 import { buildMetadata } from "@/lib/metadata";
@@ -41,6 +43,13 @@ export const metadata: Metadata = buildMetadata({
     "Benvenia Guide raccoglie check-in, Wi-Fi, servizi, regole e consigli locali in una guida digitale personalizzata e sempre disponibile per i tuoi ospiti. Prova la demo interattiva.",
   path: "/",
   ogTitle: "Benvenia Guide — L'accoglienza continua oltre il check-in",
+  keywords: [
+    "guest guide digitale",
+    "guida digitale per B&B",
+    "guida per ospiti",
+    "guida digitale casa vacanza",
+    "guest guide boutique hotel",
+  ],
 });
 
 const benefitIcons: Record<BenefitItem["icon"], typeof Heart> = {
@@ -71,6 +80,7 @@ export default function HomePage() {
   return (
     <>
       <JsonLd data={softwareApplicationJsonLd()} />
+      <JsonLd data={serviceJsonLd()} />
       <JsonLd data={faqJsonLd(homeFaqs)} />
 
       {/* A. HERO */}
@@ -476,6 +486,60 @@ export default function HomePage() {
               );
             })}
           </ul>
+        </Container>
+      </section>
+
+      {/* H-bis. Risorse */}
+      <section className="py-16 sm:py-24">
+        <Container>
+          <Reveal>
+            <SectionHeading
+              eyebrow="Risorse"
+              title="Idee e guide pratiche per chi accoglie."
+              lead="Metodi e spunti per organizzare le informazioni della tua struttura: cosa scrivere nella guida per gli ospiti, come ridurre le domande ripetitive, quando ha senso il digitale e quando no."
+            />
+          </Reveal>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {articles.map((article, index) => (
+              <Reveal key={article.slug} delayMs={index * 80} className="h-full">
+                <Link
+                  href={`/risorse/${article.slug}`}
+                  className="group flex h-full flex-col rounded-[2rem] border border-line bg-paper p-7 shadow-soft transition-transform duration-200 hover:-translate-y-1"
+                >
+                  <span className="text-xs font-semibold tracking-[0.18em] text-copper-700 uppercase">
+                    {article.topic}
+                  </span>
+                  <h3 className="text-balance mt-4 font-display text-lg leading-snug font-semibold text-forest">
+                    {article.title}
+                  </h3>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
+                    {article.description}
+                  </p>
+                  <span className="mt-5 flex items-center justify-between text-xs text-muted">
+                    <span>Lettura di ~{article.readingMinutes} min</span>
+                    <span className="flex items-center gap-1.5 font-medium text-forest">
+                      Leggi
+                      <ArrowRight
+                        aria-hidden="true"
+                        className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                      />
+                    </span>
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+          <div className="mt-10">
+            <CtaLink
+              href="/risorse"
+              variant="outline"
+              event={ANALYTICS_EVENTS.ctaClick}
+              eventParams={{ cta: "home_risorse" }}
+            >
+              Tutte le risorse
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </CtaLink>
+          </div>
         </Container>
       </section>
 

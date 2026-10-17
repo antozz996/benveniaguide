@@ -69,14 +69,14 @@ export function Header() {
         <Logo />
 
         <nav aria-label="Navigazione principale" className="hidden lg:block">
-          <ul className="flex items-center gap-1">
+          <ul className="flex items-center gap-0.5 xl:gap-1">
             {mainNavigation.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
-                    "rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
+                    "rounded-full px-2.5 py-2 text-sm font-medium transition-colors xl:px-3.5",
                     isActive(item.href)
                       ? "bg-forest/8 text-forest"
                       : "text-charcoal/75 hover:bg-forest/5 hover:text-forest",

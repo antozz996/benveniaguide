@@ -34,6 +34,7 @@ Copiare `.env.example` in `.env.local` e compilare:
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | URL pubblico (canonical, sitemap, OG) |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | GA4, caricato solo con consenso |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | meta tag di verifica per Google Search Console |
 | `RESEND_API_KEY` | invio email form contatti |
 | `LEAD_EMAIL_FROM` | mittente verificato su Resend (default: `Benvenia Guide <no-reply@benveniaguide.it>`) |
 | `LEAD_NOTIFY_EMAIL_TO` | destinatario interno delle richieste (default: `info@benveniaguide.it`) |

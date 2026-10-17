@@ -15,6 +15,7 @@ export const metadata: Metadata = buildMetadata({
     "Richiedi una demo gratuita di Benvenia Guide: compila il modulo per essere ricontattato, conoscere il prodotto e ricevere un'offerta su misura per la tua struttura.",
   path: "/contatti",
   ogTitle: "Richiedi una demo · Benvenia Guide",
+  keywords: ["demo guest guide gratuita", "contatti Benvenia Guide"],
 });
 
 export default function ContattiPage() {

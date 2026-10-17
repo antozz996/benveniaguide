@@ -28,6 +28,11 @@ export const metadata: Metadata = buildMetadata({
     "Il percorso di Benvenia Guide in sei passaggi: richiesta, raccolta delle informazioni, personalizzazione, revisione, condivisione con gli ospiti e aggiornamenti nel tempo.",
   path: "/come-funziona",
   ogTitle: "Come funziona · Benvenia Guide",
+  keywords: [
+    "come funziona guest guide",
+    "guida digitale struttura ricettiva",
+    "creare guida per ospiti",
+  ],
 });
 
 const stepIcons = {

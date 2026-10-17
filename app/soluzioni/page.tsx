@@ -25,6 +25,12 @@ export const metadata: Metadata = buildMetadata({
     "Percorsi Benvenia Guide per ogni tipo di struttura ricettiva: B&B, case vacanza, boutique hotel e property manager. Esigenze, contenuti e benefici potenziali per ciascun segmento.",
   path: "/soluzioni",
   ogTitle: "Soluzioni per la tua struttura · Benvenia Guide",
+  keywords: [
+    "guest guide per B&B",
+    "guida digitale case vacanza",
+    "guida ospiti boutique hotel",
+    "property manager accoglienza",
+  ],
 });
 
 const segmentIcons = {

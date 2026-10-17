@@ -41,6 +41,12 @@ export const metadata: Metadata = buildMetadata({
     "Cosa contiene una Guest Guide Benvenia: sezioni, esperienza mobile, doppia lingua e contenuti di soggiorno. Distinguiamo con chiarezza le funzionalità verificabili nella demo da quelle concordate in fase di attivazione.",
   path: "/funzionalita",
   ogTitle: "Funzionalità · Benvenia Guide",
+  keywords: [
+    "funzionalità guest guide",
+    "guida digitale check-in",
+    "wifi ospiti B&B",
+    "guida per ospiti struttura ricettiva",
+  ],
 });
 
 const featureIcons: Record<FeatureIcon, typeof LayoutGrid> = {

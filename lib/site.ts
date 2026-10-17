@@ -48,6 +48,7 @@ export const mainNavigation: NavItem[] = [
   { label: "Funzionalità", href: "/funzionalita" },
   { label: "Soluzioni", href: "/soluzioni" },
   { label: "Prezzi", href: "/prezzi" },
+  { label: "Risorse", href: "/risorse" },
 ];
 
 export const footerNavigation: { title: string; items: NavItem[] }[] = [
@@ -72,6 +73,7 @@ export const footerNavigation: { title: string; items: NavItem[] }[] = [
   {
     title: "Informazioni",
     items: [
+      { label: "Risorse", href: "/risorse" },
       { label: "Contatti", href: "/contatti" },
       { label: "Privacy", href: "/privacy" },
       { label: "Cookie policy", href: "/cookie-policy" },

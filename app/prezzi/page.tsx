@@ -23,6 +23,11 @@ export const metadata: Metadata = buildMetadata({
     "Come funziona l'offerta Benvenia Guide: nessun pacchetto preconfezionato, ogni struttura riceve una proposta su misura e trasparente, costruita su esigenze reali.",
   path: "/prezzi",
   ogTitle: "Prezzi trasparenti, offerte su misura · Benvenia Guide",
+  keywords: [
+    "costo guest guide",
+    "prezzo guida digitale B&B",
+    "preventivo guida per ospiti",
+  ],
 });
 
 export default function PrezziPage() {
