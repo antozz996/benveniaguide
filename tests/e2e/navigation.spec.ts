@@ -94,7 +94,10 @@ test.describe("SEO tecnico", () => {
     expect(response.status()).toBe(200);
     const body = await response.text();
     expect(body).toContain("sitemap");
-    expect(body).not.toContain("Disallow: /");
+    // Nessun blocco totale: sono ammesse solo esclusioni di path privati
+    // (/area/, /accedi, /g/, /api/), non un "Disallow: /" complessivo.
+    expect(body).not.toMatch(/^Disallow: \/$/m);
+    expect(body).toContain("Allow: /");
   });
 
   test("i dati strutturati JSON-LD sono presenti nella home", async ({

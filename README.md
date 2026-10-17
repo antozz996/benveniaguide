@@ -38,6 +38,25 @@ Copiare `.env.example` in `.env.local` e compilare:
 | `RESEND_API_KEY` | invio email form contatti |
 | `LEAD_EMAIL_FROM` | mittente verificato su Resend (default: `Benvenia Guide <no-reply@benveniaguide.it>`) |
 | `LEAD_NOTIFY_EMAIL_TO` | destinatario interno delle richieste (default: `info@benveniaguide.it`) |
+| `DATABASE_URL` | Neon Postgres: sessioni di accesso, utenti e clienti dell'area riservata |
+| `SESSION_PASSWORD` | segreto (min 32 caratteri) per il cookie di sessione cifrato |
+| `ADMIN_EMAIL` | email dell'account amministratore, creato al primo accesso |
+| `AUTH_ALLOW_DEV_LINK` | solo test: `/api/auth/dev-link` restituisce il link di accesso senza email |
+
+## Area riservata (accesso clienti)
+
+L'accesso avviene con magic link: si inserisce l'email in `/accedi`, si riceve
+un link valido 15 minuti e utilizzabile una sola volta. Solo gli indirizzi
+abilitati (utenti creati da Benvenia, oppure `ADMIN_EMAIL`) ricevono il link;
+il form risponde comunque in modo neutro. Le sessioni durano 30 giorni e sono
+salvate in un cookie cifrato (`bg_session`, HttpOnly).
+
+Comandi database (Drizzle, config in `drizzle.config.ts`):
+
+- `npm run db:push` — applica lo schema al database
+- `npm run db:generate` — genera una migrazione SQL
+- `npm run db:migrate` — applica le migrazioni
+- `npm run db:studio` — esplora i dati con Drizzle Studio
 
 Senza le variabili Resend: in sviluppo l'API risponde `delivery: "dev"`
 (nessuna email, nessuna simulazione di invio reale); in produzione risponde

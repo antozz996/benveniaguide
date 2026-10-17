@@ -33,6 +33,9 @@ export default defineConfig({
       // Test su build di produzione: invio email simulato in modalità
       // "dev" (delivery:"dev"), mai in produzione reale.
       LEAD_ALLOW_DEV_DELIVERY: "true",
+      // Abilita /api/auth/dev-link solo per i test: restituisce il link di
+      // accesso senza inviare email.
+      AUTH_ALLOW_DEV_LINK: "true",
     },
   },
 });
