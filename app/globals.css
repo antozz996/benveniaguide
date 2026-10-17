@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-display: var(--font-manrope), var(--font-inter), ui-sans-serif,
+    system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, "Times New Roman",
+    serif;
+}
+
+@theme {
+  /* Palette Benvenia */
+  --color-forest: #152f2b;
+  --color-forest-800: #1a3833;
+  --color-forest-700: #20443e;
+  --color-charcoal: #202827;
+  --color-ink: #22302d;
+  --color-ivory: #f8f5ee;
+  --color-paper: #ffffff;
+  --color-sage: #a6b7a4;
+  --color-sage-100: #eef2ea;
+  --color-sage-200: #dbe4d6;
+  --color-copper: #b98563;
+  --color-copper-600: #a06f4d;
+  --color-copper-700: #8a5936;
+  --color-line: #e4e7e1;
+  --color-muted: #5f6f6a;
+
+  --shadow-soft: 0 24px 48px -32px rgb(21 47 43 / 0.32);
+  --shadow-lift: 0 32px 64px -36px rgb(21 47 43 / 0.42);
+
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-screen-in: screen-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-toast-in: toast-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-hero-float: hero-float 7s ease-in-out infinite;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes screen-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes hero-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-copper);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-copper-600);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Reveal-on-scroll: la classe .reveal viene applicata solo lato client
+   (prima del primo paint) per non nascondere i contenuti senza JavaScript. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Testo bilanciato sui titoli principali */
+.text-balance {
+  text-wrap: balance;
+}

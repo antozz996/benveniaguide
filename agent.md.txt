@@ -1,0 +1,629 @@
+
+# BENVENIA GUIDE — MASTER BUILD PROMPT V1
+# OpenCode / DeepSeek Flash
+# Obiettivo: sviluppare un sito web premium completo, testato e pronto al rilascio.
+
+## 1. RUOLO E MISSIONE
+
+Agisci come un team senior composto da:
+- Creative Director specializzato in prodotti SaaS premium.
+- Senior Product Designer UI/UX.
+- Senior Full-Stack Engineer Next.js.
+- CRO & SEO Specialist.
+- QA Engineer e Accessibility Specialist.
+
+Hai il compito di PROGETTARE E SVILUPPARE realmente, scrivendo codice, il sito ufficiale di BENVENIA GUIDE.
+
+Non voglio soltanto idee, descrizioni, wireframe o componenti dimostrativi isolati.
+
+Voglio un'applicazione web completa, responsive, elegante, funzionante, testata e predisposta per Vercel.
+
+Lavora autonomamente in modalità BUILD.
+
+Non interromperti dopo la pianificazione: procedi con implementazione, verifiche e correzioni.
+
+## 2. IDENTITÀ DEL PROGETTO
+
+Brand commerciale: BENVENIA
+Prodotto: BENVENIA GUIDE
+Dominio previsto: https://www.benveniaguide.it
+Mercato iniziale: Italia
+Lingua principale: italiano
+Target: B&B, case vacanza, boutique hotel, piccoli hotel indipendenti, property manager e altre strutture ricettive.
+
+ATTENZIONE:
+- Il dominio è previsto ma non ancora da considerare acquistato o collegato.
+- BENVENIA GUIDE è un prodotto diverso da NOLORIA Autonomous Business OS.
+- Non modificare repository, applicazioni, dati o deploy del precedente Benvenia Marketing OS o di Noloria.
+- Usa un repository e un progetto Vercel separati.
+
+BENVENIA GUIDE è una soluzione digitale che consente alle strutture ricettive di raccogliere e presentare ai propri ospiti le informazioni utili al soggiorno attraverso una Guest Guide personalizzata.
+
+Il prodotto deve essere comunicato come un servizio professionale che valorizza l'accoglienza.
+
+Esempi di informazioni che una Guest Guide può contenere:
+- Benvenuto personalizzato.
+- Informazioni di check-in e check-out.
+- Wi-Fi e servizi disponibili.
+- Regole della struttura.
+- Istruzioni e informazioni pratiche.
+- Consigli sul territorio.
+- Ristoranti, attrazioni ed esperienze.
+- Informazioni di contatto.
+- FAQ relative al soggiorno.
+
+Le funzionalità effettivamente già disponibili devono essere verificate attraverso gli asset e il codice esistenti, se accessibili.
+
+Non presentare come già disponibili funzionalità non verificate.
+
+## 3. OBIETTIVO COMMERCIALE
+
+Il sito non deve essere una semplice vetrina aziendale.
+
+Deve diventare il principale strumento digitale di acquisizione clienti per Benvenia Guest Guide.
+
+Il percorso ideale è:
+
+1. Un albergatore riceve una comunicazione commerciale autorizzata oppure scopre Benvenia tramite Google.
+2. Apre il sito.
+3. Comprende il prodotto in meno di 10 secondi.
+4. Visualizza concretamente una Guest Guide.
+5. Comprende i benefici potenziali per la propria struttura.
+6. Richiede una demo personalizzata.
+7. La richiesta viene registrata o notificata al team commerciale.
+
+CTA primaria:
+"Richiedi una demo gratuita"
+
+CTA secondaria:
+"Esplora una Guest Guide"
+
+CTA alternativa:
+"Scopri come funziona"
+
+La comunicazione deve essere convincente, professionale e accessibile anche a chi non conosce la tecnologia.
+
+Non inventare statistiche, testimonianze, clienti, recensioni, risultati economici o prestazioni del prodotto.
+
+## 4. DIREZIONE ARTISTICA
+
+Voglio un design riconoscibile e premium.
+
+Evita assolutamente:
+- Aspetto da template SaaS generico.
+- Hero banali con gradienti viola e blu.
+- Interfacce sovraccariche.
+- Card tutte uguali senza gerarchia.
+- Emoji come elementi principali del design.
+- Animazioni decorative eccessive.
+- Immagini stock casuali.
+- Testi lunghi e autoreferenziali.
+
+Mood desiderato:
+Hospitality di fascia alta + semplicità digitale + prodotto tecnologico contemporaneo.
+
+Il risultato deve essere raffinato, memorabile, credibile e commerciale.
+
+### Palette proposta
+
+- Forest Ink: #152F2B
+- Deep Charcoal: #202827
+- Warm Ivory: #F8F5EE
+- Pure White: #FFFFFF
+- Muted Sage: #A6B7A4
+- Warm Copper: #B98563
+- Neutral Border: #E4E7E1
+
+Usa i colori con moderazione, contrasti accessibili e gerarchia visiva chiara.
+
+### Tipografia
+
+- Headline: Manrope o alternativa di qualità equivalente.
+- Body: Inter o DM Sans.
+- Eventuali accenti editoriali: serif elegante usato con parsimonia.
+
+Tipografia grande, spazio bianco controllato e layout editoriali.
+
+### Animazioni
+
+Utilizza microinterazioni, transizioni raffinate, reveal-on-scroll e animazioni del prodotto.
+
+Preferisci CSS e librerie leggere.
+Eventuale Motion/GSAP solo dove produce un beneficio concreto.
+
+Rispetta prefers-reduced-motion.
+
+Non sacrificare performance, accessibilità o usabilità per gli effetti visivi.
+
+## 5. ELEMENTO DISTINTIVO: DEMO INTERATTIVA
+
+La caratteristica più importante del sito deve essere una Guest Guide DEMO realmente navigabile.
+
+Non voglio uno screenshot statico.
+
+Realizza una demo contenuta in una rappresentazione smartphone elegante, ma utilizzabile anche a schermo intero.
+
+Struttura demo:
+
+WELCOME
+- Nome struttura dimostrativa.
+- Immagine hero.
+- Messaggio di benvenuto.
+- Accesso rapido alle informazioni.
+
+IL TUO SOGGIORNO
+- Check-in/check-out.
+- Wi-Fi.
+- Servizi.
+- Regole della casa.
+
+ESPLORA
+- Attrazioni locali.
+- Dove mangiare.
+- Esperienze consigliate.
+- Indicazioni utili.
+
+CONTATTI
+- Informazioni dell'host.
+- CTA di contatto dimostrativa.
+
+La demo deve consentire di:
+- Navigare realmente tra le sezioni.
+- Aprire contenuti e dettagli.
+- Simulare una Guest Guide mobile.
+- Passare, se implementato, tra italiano e inglese.
+- Tornare al sito commerciale facilmente.
+
+Usa una struttura fittizia chiaramente identificata come demo.
+Non attribuire le informazioni a una struttura reale.
+
+Sviluppa la demo tramite dati tipizzati e componenti riutilizzabili.
+
+Prevedi un'architettura che consenta in futuro di collegare guide reali.
+
+IMPORTANTE:
+La demo pubblica non deve esporre dati personali, password Wi-Fi reali o informazioni riservate.
+
+## 6. ARCHITETTURA DEL SITO
+
+Realizza almeno le seguenti pagine.
+
+### HOME /
+
+Sezioni obbligatorie:
+
+A. HERO
+Headline forte, centrata sul beneficio.
+
+Possibile direzione copy:
+"L'accoglienza migliore continua oltre il check-in."
+
+Subheadline:
+"Tutte le informazioni del soggiorno in una guida digitale personalizzata per la tua struttura."
+
+CTA:
+"Richiedi una demo"
+"Esplora la guida"
+
+Integra una preview dinamica del prodotto.
+
+B. IL PROBLEMA
+Spiega con esempi pratici le domande ripetitive degli ospiti e la frammentazione delle informazioni.
+
+Non dichiarare che ogni struttura soffra necessariamente di questi problemi.
+
+C. LA SOLUZIONE
+Presenta Benvenia Guide come un punto di riferimento digitale per l'ospite.
+
+D. DEMO PREVIEW
+Anteprima interattiva della guida.
+
+E. COME FUNZIONA
+Tre passaggi semplici:
+- Personalizziamo le informazioni.
+- Organizziamo la tua guida.
+- La condividi con i tuoi ospiti.
+
+F. BENEFICI
+- Informazioni più facilmente accessibili.
+- Accoglienza digitale coerente con il brand.
+- Potenziale riduzione delle richieste ripetitive.
+- Valorizzazione dei consigli locali.
+- Maggiore chiarezza per gli ospiti.
+
+G. TIPOLOGIE DI STRUTTURE
+B&B, case vacanza, boutique hotel, property manager.
+
+H. FAQ
+Domande commerciali e operative pertinenti.
+
+I. CTA FINALE
+Invito alla richiesta di demo.
+
+### /come-funziona
+
+Pagina completa che illustra il processo dalla raccolta delle informazioni fino alla condivisione della guida.
+
+Linguaggio semplice, visuale, commerciale.
+
+### /demo
+
+Pagina dedicata alla demo interattiva.
+
+Deve essere il pezzo forte dell'intero progetto.
+
+Interfaccia realmente navigabile, mobile-first e funzionante.
+
+### /funzionalita
+
+Mostra le sezioni e le capacità della Guest Guide.
+Distingui chiaramente tra caratteristiche verificate e funzionalità eventualmente previste.
+
+### /soluzioni
+
+Landing B2B con percorsi per:
+- B&B
+- Case vacanza
+- Boutique hotel
+- Property manager
+
+Prevedi contenuti pertinenti per ciascun segmento.
+
+### /prezzi
+
+Non inventare prezzi o pacchetti commerciali.
+
+Se non esistono listini verificati, realizza una pagina che spieghi il processo di preventivazione e inviti a richiedere un'offerta personalizzata.
+
+Organizza i dati in modo che in futuro si possano aggiungere pacchetti e prezzi da una configurazione centralizzata.
+
+### /contatti
+
+Form di richiesta demo e contatto commerciale.
+
+### /privacy
+### /cookie-policy
+
+Predisponi la struttura tecnica per i documenti legali.
+
+Non inventare partita IVA, ragione sociale, recapiti o testi che fingano di essere documenti legali approvati.
+
+Se mancano informazioni necessarie, segnala esplicitamente il blocco per la pubblicazione definitiva.
+
+## 7. FUNNEL DI ACQUISIZIONE
+
+Realizza un sistema di lead capture.
+
+Campi form:
+- Nome.
+- Nome struttura.
+- Email.
+- Tipologia struttura.
+- Sito web (facoltativo).
+- Messaggio (facoltativo).
+- Presa visione dell'informativa privacy.
+
+Requisiti:
+- Validazione client e server.
+- Protezione antispam.
+- Rate limiting appropriato.
+- Stati loading, success ed error.
+- Accessibilità.
+- Nessun dato sensibile nei log.
+- Eventi analytics.
+- Gestione server-side delle credenziali.
+
+Predisponi l'integrazione con un provider email transazionale affidabile, ad esempio Resend, utilizzando variabili d'ambiente.
+
+Non hardcodare API key.
+
+Se le credenziali necessarie mancano, non simulare l'invio riuscito.
+Fornisci una modalità di sviluppo verificabile e segnala ciò che manca prima del lancio pubblico.
+
+Non utilizzare il database dei prospect commerciali come database dei contatti che hanno richiesto una demo, salvo futura integrazione esplicitamente autorizzata.
+
+## 8. CAMPAGNE EMAIL E ATTRIBUZIONE
+
+Il sito sarà utilizzato come destinazione delle campagne commerciali Benvenia.
+
+Prevedi il supporto a parametri UTM:
+- utm_source
+- utm_medium
+- utm_campaign
+- utm_content
+
+Esempio:
+utm_source=email
+utm_medium=outreach
+utm_campaign=guestguide
+
+Predisponi gli eventi:
+- page_view
+- demo_open
+- demo_interaction
+- cta_click
+- lead_form_start
+- lead_form_submit
+- lead_form_success
+
+Implementa GA4 tramite configurazione ambientale.
+
+Non inventare ID di misurazione.
+
+Non inizializzare analytics non essenziali prima del consenso quando richiesto dalla normativa applicabile.
+
+Prevedi una gestione del consenso cookie conforme, con categorie e possibilità di revoca.
+
+Non collegare né attivare autonomamente sistemi di invio commerciale massivo.
+
+## 9. STACK TECNOLOGICO
+
+Stack preferenziale:
+- Next.js, versione stabile compatibile.
+- App Router.
+- React.
+- TypeScript strict.
+- Tailwind CSS.
+- Componenti accessibili.
+- Lucide Icons.
+- Motion leggero quando necessario.
+- Zod per validazione.
+- Vercel come piattaforma di deploy.
+
+Non aggiungere dipendenze inutili.
+
+Organizza il progetto con:
+- app/
+- components/
+- components/demo/
+- components/layout/
+- components/forms/
+- lib/
+- data/
+- styles/
+- public/
+- tests/
+
+Adatta la struttura quando l'architettura effettiva lo richiede.
+
+Centralizza:
+- Identità e copy del brand.
+- Metadati.
+- Navigazione.
+- Configurazione CTA.
+- Funzionalità prodotto.
+- Eventuali pacchetti.
+- Informazioni di contatto.
+- Dati della guida dimostrativa.
+
+Crea un file .env.example completo, senza segreti.
+
+Crea AGENTS.md con le istruzioni permanenti e i comandi reali di sviluppo e verifica.
+
+## 10. SEO
+
+Implementa SEO tecnico e semantico completo.
+
+Requisiti:
+- Metadata API di Next.js.
+- Title e description unici.
+- Canonical coerenti con il dominio configurato.
+- Sitemap.xml.
+- Robots.txt.
+- Open Graph.
+- Twitter/X Cards.
+- Immagini social originali.
+- Favicon.
+- JSON-LD Organization, WebSite, SoftwareApplication quando appropriato e fattualmente corretto.
+- Breadcrumb dove pertinente.
+- Heading semantici.
+- Internal linking.
+- URL puliti.
+- Gestione 404.
+- Prevenzione dei contenuti duplicati.
+- Sitemap e canonical coerenti con l'ambiente.
+
+Le landing di settore devono rispondere a differenti intenti di ricerca senza duplicare artificialmente lo stesso testo.
+
+Non aggiungere recensioni o valutazioni aggregate inesistenti.
+
+Non indicizzare gli URL di preview o staging.
+
+## 11. PERFORMANCE E ACCESSIBILITÀ
+
+Obiettivi:
+- Lighthouse Performance Mobile >= 90.
+- SEO >= 95.
+- Accessibility >= 95.
+- Best Practices >= 95.
+
+Metriche indicative:
+- LCP < 2.5 s.
+- CLS < 0.1.
+- INP < 200 ms sui dati reali, quando disponibili.
+
+Questi sono target, non risultati da dichiarare senza misurazione.
+
+Ottimizza:
+- Font.
+- Immagini.
+- Responsive rendering.
+- Lazy loading.
+- Bundle size.
+- Componenti server/client.
+- Caching.
+- Hydration.
+- Navigazione da tastiera.
+- Focus visibile.
+- Contrasti.
+- Screen reader.
+- Layout da 320px ai grandi monitor.
+
+Evita video pesanti in autoplay come elemento principale della hero.
+
+## 12. PROCESSO DI SVILUPPO
+
+Lavora in fasi, ma completa il lavoro nella stessa sessione per quanto consentito dall'ambiente.
+
+FASE 1 — AUDIT
+Controlla directory corrente, repository, file, dipendenze, eventuali asset esistenti e vincoli.
+
+Se il repository è vuoto, inizializza il progetto.
+
+Non modificare progetti esterni.
+
+FASE 2 — DESIGN SYSTEM
+Crea token, palette, tipografia, componenti, layout, header, footer e navigazione mobile.
+
+FASE 3 — HOME
+Sviluppa una Home premium con tutte le sezioni previste.
+
+FASE 4 — DEMO
+Implementa la Guest Guide interattiva e completa.
+
+FASE 5 — PAGINE
+Realizza tutte le pagine e i contenuti commerciali.
+
+FASE 6 — LEAD CAPTURE
+Implementa form, validazione, sicurezza e integrazione predisposta.
+
+FASE 7 — SEO & ANALYTICS
+Completa metadati, sitemap, dati strutturati e misurazione configurabile.
+
+FASE 8 — QA
+Esegui test, correzioni, controlli responsive e verifica delle funzionalità.
+
+FASE 9 — DEPLOY
+Prepara configurazione e documentazione Vercel.
+
+Se disponi dei permessi necessari, puoi creare una preview di sviluppo.
+Non acquistare domini, non modificare DNS e non pubblicare in produzione senza autorizzazione esplicita.
+
+## 13. TEST OBBLIGATORI
+
+Esegui i controlli effettivamente disponibili:
+
+- Installazione dipendenze.
+- Typecheck.
+- ESLint.
+- Build di produzione.
+- Test delle componenti critiche.
+- Navigazione della demo.
+- Validazione form.
+- Controllo link interni.
+- Controllo dei metadati.
+- Verifica mobile e desktop.
+- Verifica assenza di errori console.
+- Verifica accessibilità.
+
+Se è disponibile Playwright, utilizza test browser automatici.
+
+Testa almeno:
+- Mobile 375px.
+- Tablet 768px.
+- Desktop 1440px.
+
+Non dichiarare un test PASS se non è stato realmente eseguito.
+
+Non sostituire test non eseguiti con valutazioni ipotetiche.
+
+Correggi gli errori rilevati e riesegui i test pertinenti.
+
+## 14. SICUREZZA E VINCOLI
+
+Non:
+- Inventare dati aziendali.
+- Pubblicare recensioni false.
+- Inventare prezzi.
+- Esporre API key.
+- Commitare file .env reali.
+- Alterare repository di altri progetti.
+- Eliminare codice o asset esistenti senza motivo.
+- Attivare automaticamente invii commerciali.
+- Inserire tracking non autorizzato.
+- Dichiarare il sito LIVE senza verifica reale.
+
+Per configurazioni esterne mancanti, predisponi il codice e documenta esattamente i dati richiesti.
+
+Mantieni separata la demo pubblica dal futuro prodotto Guest Guide destinato ai clienti reali.
+
+## 15. CRITERI DI COMPLETAMENTO
+
+Il sito può essere dichiarato tecnicamente completato soltanto quando:
+
+1. Le pagine previste sono implementate.
+2. Il sito è responsive.
+3. La demo è interattiva.
+4. Non esistono CTA che promettono azioni inesistenti.
+5. Il form è funzionante in un ambiente con integrazione configurata.
+6. SEO tecnico implementato.
+7. Build e typecheck superati.
+8. I test eseguiti sono documentati.
+9. Nessun segreto è esposto.
+10. È disponibile una procedura di deploy verificabile.
+
+Il rilascio pubblico richiede inoltre:
+- Dominio acquistato e collegato.
+- Mittente email verificato.
+- Informativa privacy approvata.
+- Dati societari corretti.
+- Test reale dei contatti.
+- Autorizzazione finale.
+
+## 16. OUTPUT OBBLIGATORIO
+
+Al termine produci:
+
+A. Sintesi di ciò che hai realizzato.
+
+B. Elenco delle pagine implementate.
+
+C. Elenco delle funzionalità realmente operative.
+
+D. File creati o modificati.
+
+E. Comandi eseguiti e risultati dei test.
+
+F. Eventuali screenshot e risultati Lighthouse, solo se realmente prodotti.
+
+G. URL della preview, soltanto se un deploy è stato eseguito e verificato.
+
+H. Variabili d'ambiente da configurare.
+
+I. Blocchi residui, inclusi requisiti legali o servizi esterni.
+
+J. Prossimi passi per il go-live su benveniaguide.it.
+
+K. Commit Git, se effettuato.
+
+Non chiudere con un semplice "Ho finito" se esistono blocchi significativi.
+
+Se tutto il lavoro tecnico è completato, dichiara:
+"BENVENIA GUIDE WEBSITE V1 — TECHNICALLY READY"
+
+Se non lo è, dichiara:
+"BENVENIA GUIDE WEBSITE V1 — BLOCKED"
+e specifica esattamente cosa manca.
+
+## 17. ISTRUZIONE FINALE
+
+Non voglio il classico sito prodotto da un generatore AI.
+
+Voglio un sito che trasmetta subito:
+- Qualità.
+- Fiducia.
+- Chiarezza.
+- Innovazione.
+- Cura dell'ospitalità.
+
+La Guest Guide interattiva deve essere il protagonista visivo e funzionale.
+
+Il design deve essere sufficientemente distintivo da sembrare realizzato da un'agenzia digitale premium.
+
+Il codice deve essere mantenibile, scalabile e pronto per successive integrazioni.
+
+Prendi decisioni autonome sui dettagli tecnici e visivi che non richiedono dati aziendali reali.
+
+Non fermarti alla pianificazione.
+
+INIZIA CON L'AUDIT DELLA DIRECTORY, POI IMPLEMENTA IL PROGETTO.
