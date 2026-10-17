@@ -87,5 +87,4 @@ export const pendingLaunchConfig = [
   "Ragione sociale e partita IVA (società non ancora costituita)",
   "Sede legale nei recapiti ufficiali",
   "Informativa privacy approvata e revisione legale",
-  "Dominio benveniaguide.it verificato su Resend (record DNS)",
 ] as const;
