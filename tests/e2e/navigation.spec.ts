@@ -157,4 +157,22 @@ test.describe("Consenso cookie", () => {
       .count();
     expect(trackingScripts).toBe(0);
   });
+
+  test("con il consenso analytics viene caricato il tag GA4", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const dialog = page.getByRole("dialog", { name: "Cookie e privacy" });
+    await dialog.getByRole("button", { name: "Personalizza" }).click();
+    await dialog.getByRole("checkbox", { name: "Cookie di misurazione" }).check();
+    await dialog.getByRole("button", { name: "Salva preferenze" }).click();
+    await expect(dialog).toBeHidden();
+
+    await expect(
+      page.locator('script[src*="googletagmanager.com/gtag/js"]'),
+    ).toHaveAttribute("src", /G-E2ETEST01/);
+    await expect
+      .poll(() => page.evaluate(() => typeof window.gtag))
+      .toBe("function");
+  });
 });

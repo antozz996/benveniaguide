@@ -36,6 +36,9 @@ export default defineConfig({
       // Abilita /api/auth/dev-link solo per i test: restituisce il link di
       // accesso senza inviare email.
       AUTH_ALLOW_DEV_LINK: "true",
+      // ID GA4 fittizio: permette di verificare il caricamento condizionato
+      // dal consenso senza inviare dati alla proprietà reale.
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: "G-E2ETEST01",
     },
   },
 });
