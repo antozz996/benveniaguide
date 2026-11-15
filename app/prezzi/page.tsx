@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ArrowRight, BadgeCheck, Sparkles } from "lucide-react";
 import { CTASection } from "@/components/CTASection";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -111,7 +112,7 @@ export default function PrezziPage() {
                     ))}
                   </ul>
                   <CtaLink
-                    href="/contatti"
+                    href={`/paga/${pack.id}`}
                     variant={pack.highlighted ? "copper" : undefined}
                     className="mt-6 self-start"
                     event={ANALYTICS_EVENTS.ctaClick}
@@ -128,7 +129,10 @@ export default function PrezziPage() {
           <ul className="mx-auto mt-8 max-w-3xl space-y-1 text-center text-sm text-muted">
             {pricingExtras.map((extra) => (
               <li key={extra.label}>
-                {extra.label}: <strong className="text-forest">{extra.price}</strong>
+                {extra.label}: <strong className="text-forest">{extra.price}</strong>{" "}
+                <Link href="/paga/modifica" className="text-copper-700 underline underline-offset-2">
+                  Paga
+                </Link>
               </li>
             ))}
           </ul>

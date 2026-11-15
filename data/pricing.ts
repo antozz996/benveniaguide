@@ -1,6 +1,6 @@
 /**
  * Prezzi — listino a pagamento unico (una tantum), nessun abbonamento.
- * Fonte unica per la pagina /prezzi. Prezzi IVA da verificare col regime fiscale.
+ * Fonte unica per le pagine /prezzi e /paga. Regime forfettario: nessuna IVA.
  */
 
 export interface PricingPackage {
@@ -61,6 +61,48 @@ export const pricingExtras: { label: string; price: string }[] = [
   { label: "Modifica extra (orari, Wi-Fi, luoghi…)", price: "€15" },
 ];
 
+/**
+ * Voci pagabili su /paga/[id] (bonifico o Revolut). `amount` in euro;
+ * `perUnit` = prezzo moltiplicato per il numero di strutture/modifiche.
+ * Per chiudere l'offerta lancio: impostare `launchOffer: false`.
+ */
+export interface PayableItem {
+  id: string;
+  name: string;
+  amount: number;
+  /** Prezzo di listino barrato (offerta lancio). */
+  listAmount?: number;
+  perUnit?: string;
+  note?: string;
+}
+
+const launchOfferActive = true;
+
+export const payableItems: PayableItem[] = [
+  { id: "base", name: "Base", amount: 49 },
+  launchOfferActive
+    ? {
+        id: "completa",
+        name: "Completa",
+        amount: 49,
+        listAmount: 79,
+        note: "Offerta lancio riservata ai primi 10 clienti, in cambio di una recensione e del permesso di mostrare la guida come esempio.",
+      }
+    : { id: "completa", name: "Completa", amount: 79 },
+  {
+    id: "multi",
+    name: "Multi-struttura",
+    amount: 59,
+    perUnit: "struttura",
+    note: "Da 3 strutture in su: importo totale = €59 × numero di strutture.",
+  },
+  { id: "modifica", name: "Modifica extra", amount: 15, perUnit: "modifica" },
+];
+
+export function getPayableItem(id: string): PayableItem | undefined {
+  return payableItems.find((item) => item.id === id);
+}
+
 export const pricingLaunchOffer = {
   title: "Offerta lancio: Completa a €49",
   description:
@@ -94,7 +136,7 @@ export const pricingSteps: { number: string; title: string; description: string 
   {
     number: "01",
     title: "Scegli il pacchetto",
-    description: "Contattaci indicando il pacchetto e il numero di strutture.",
+    description: "Paghi con bonifico o Revolut e ci invii la conferma con il nome della struttura.",
   },
   {
     number: "02",
@@ -109,6 +151,6 @@ export const pricingSteps: { number: string; title: string; description: string 
   {
     number: "04",
     title: "Online in 48 ore",
-    description: "Paghi una volta e ricevi link e QR code da condividere con gli ospiti.",
+    description: "Ricevi link e QR code da condividere con gli ospiti.",
   },
 ];
