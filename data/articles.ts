@@ -277,6 +277,242 @@ export const articles: Article[] = [
       },
     ],
   },
+  {
+    slug: "cosa-scrivere-guida-ospiti-casa-vacanza",
+    title:
+      "Cosa scrivere nella guida per gli ospiti di una casa vacanza: esempi di testi pronti",
+    seoTitle: "Cosa scrivere nella guida ospiti: esempi",
+    description:
+      "Testi di esempio da copiare e adattare per la guida ospiti della tua casa vacanza: benvenuto, arrivo, Wi-Fi, regole, rifiuti, check-out e consigli di zona.",
+    topic: "Guide agli ospiti",
+    date: "2026-11-15",
+    displayDate: "15 novembre 2026",
+    readingMinutes: 7,
+    intro:
+      "Sai già cosa deve esserci nella guida per gli ospiti: orari, Wi-Fi, regole, qualche consiglio sulla zona. Il difficile è scriverlo. Davanti alla pagina bianca si finisce per copiare un modello anonimo o per scrivere tre righe di fretta. Qui trovi esempi di testi pronti, sezione per sezione, da adattare con le tue parole e i dettagli della tua casa.",
+    sections: [
+      {
+        heading: "1. Il benvenuto: due righe, con il tuo nome",
+        paragraphs: [
+          "Il benvenuto non deve essere lungo: deve far capire che dietro la casa ci sono persone. Esempio:",
+          "“Ciao e benvenuti a CasaDemo! Siamo Anna e Marco: abitiamo a dieci minuti e per qualsiasi cosa ci trovate su WhatsApp. In questa guida trovate tutto quello che serve per il soggiorno, e i nostri posti preferiti della zona. Buona vacanza!”",
+          "Evita le formule da hotel (“La Direzione augura un piacevole soggiorno”): in una casa vacanza l'ospite sceglie anche te.",
+        ],
+      },
+      {
+        heading: "2. Come arrivare e come entrare",
+        paragraphs: [
+          "È la sezione che, se scritta male, genera le chiamate più urgenti. Scrivi il percorso come lo descriveresti al telefono a un amico, dal parcheggio alla porta:",
+          "“Arrivati in Via Demo 12, il portone è quello verde accanto alla farmacia. Il citofono non serve: la cassetta con le chiavi è a sinistra del portone, codice che vi mandiamo il giorno dell'arrivo. Salite al secondo piano, porta a destra. Se il codice non funziona, chiamateci al numero in fondo alla guida.”",
+          "Aggiungi una foto del portone e una della cassetta o della serratura: valgono più di qualsiasi descrizione. Per il check-in senza incontro c'è una guida dedicata, che trovi tra i link in fondo a questa pagina: “Check-in autonomo: istruzioni chiare per gli ospiti”.",
+        ],
+      },
+      {
+        heading: "3. Orari di check-in e check-out",
+        paragraphs: [
+          "Scrivi l'orario e cosa succede fuori da quell'orario: è la domanda che segue sempre.",
+          "“Il check-in è dalle 15:00. Arrivate più tardi? Nessun problema: il self check-in è disponibile fino a mezzanotte, scriveteci solo l'orario previsto. Arrivate prima? Se la casa è pronta ve lo diciamo volentieri; intanto potete lasciare i bagagli da…”",
+          "“Il check-out è entro le 10:00. Se vi serve più tempo chiedetecelo il giorno prima: quando possiamo, diciamo di sì.”",
+        ],
+      },
+      {
+        heading: "4. Wi-Fi",
+        paragraphs: [
+          "Nome della rete e password esattamente come appaiono, più cosa fare se non funziona.",
+          "“Rete: CasaDemo_Guest — Password: demo-2026 (tutto minuscolo, con il trattino). Il router è nel mobile dell'ingresso: se la connessione si blocca, staccate la spina per 10 secondi e attendete due minuti.”",
+        ],
+      },
+      {
+        heading: "5. La casa: elettrodomestici e piccole istruzioni",
+        paragraphs: [
+          "Solo ciò che non è intuitivo: caldaia, climatizzatore, piano a induzione, lavatrice, tapparelle elettriche.",
+          "“Climatizzatore: telecomando sul comodino, tasto MODE fino al fiocco di neve per il freddo. Per favore spegnetelo quando uscite e tenete le finestre chiuse mentre è acceso.”",
+          "“Lavatrice: il detersivo è sotto il lavello. Programma consigliato: 40° rapido (manopola sul numero 6).”",
+        ],
+      },
+      {
+        heading: "6. Regole della casa, con il perché",
+        paragraphs: ["Le regole spiegate vengono accettate meglio. Esempi:"],
+        list: [
+          "“Dopo le 23 teniamo le voci basse: i vicini dormono con le finestre aperte.”",
+          "“La casa è non fumatori; il terrazzo è tutto vostro.”",
+          "“Possono dormire in casa solo le persone indicate nella prenotazione: dobbiamo registrare tutti gli ospiti.”",
+          "“Animali: sono benvenuti, vi chiediamo solo di non farli salire su letti e divani.”",
+        ],
+      },
+      {
+        heading: "7. Rifiuti e raccolta differenziata",
+        paragraphs: [
+          "È una delle domande più frequenti, soprattutto per gli ospiti stranieri.",
+          "“Facciamo la raccolta differenziata: sotto il lavello trovate i contenitori per organico (umido), plastica e metalli, carta, vetro e indifferenziato. Prima di partire potete lasciare i sacchetti chiusi nei bidoni in cortile, a destra del cancello.”",
+        ],
+      },
+      {
+        heading: "8. Consigli di zona: pochi, ma tuoi",
+        paragraphs: [
+          "Cinque-dieci consigli personali valgono più di una lista di attrazioni che l'ospite trova ovunque. Per ognuno: nome, perché andarci, un consiglio pratico.",
+        ],
+        list: [
+          "“Trattoria Demo — la pasta fresca della signora Lucia. Prenotate il venerdì e sabato, chiude il lunedì.”",
+          "“Spiaggia della Baia — si raggiunge a piedi in 15 minuti. Andate prima delle 10: dopo il parcheggio è pieno.”",
+          "“Panificio sotto casa — focaccia appena sfornata dalle 7:30.”",
+        ],
+      },
+      {
+        heading: "9. Contatti e numeri utili",
+        paragraphs: [
+          "“Per qualsiasi cosa: Anna, +39 000 000 0000 (WhatsApp, rispondiamo dalle 8 alle 22). Emergenze: 112. Guardia medica turistica: [numero locale]. Farmacia più vicina: Farmacia Demo, Via Demo 10.”",
+        ],
+      },
+      {
+        heading: "10. Il saluto finale e la recensione",
+        paragraphs: [
+          "Chiudi come hai aperto: con calore. Se vuoi, chiedi un feedback in modo semplice.",
+          "“Grazie per aver scelto CasaDemo. Se qualcosa si può migliorare, diteci tutto: leggiamo ogni messaggio. E se vi siete trovati bene, una recensione ci aiuta tantissimo.”",
+        ],
+      },
+      {
+        heading: "Come usare questi testi",
+        paragraphs: [
+          "Copia la struttura, cambia i dettagli, rileggi ad alta voce: se suona come parleresti tu, va bene. Poi mettili in un unico posto che l'ospite apre dal telefono, prima dell'arrivo e durante il soggiorno.",
+          "Per verificare di non aver dimenticato nulla, usa la checklist completa della guida per gli ospiti, tra i link qui sotto.",
+        ],
+      },
+    ],
+    relatedLinks: [
+      {
+        label: "Cosa deve contenere la guida per gli ospiti",
+        href: "/risorse/cosa-deve-contenere-guida-ospiti",
+        description:
+          "La checklist completa per non dimenticare nulla di importante.",
+      },
+      {
+        label: "Check-in autonomo: istruzioni chiare per gli ospiti",
+        href: "/risorse/check-in-autonomo-istruzioni-ospiti",
+        description:
+          "Cosa inviare, quando, con quali foto, e il piano B se qualcosa va storto.",
+      },
+      {
+        label: "Prova la demo interattiva",
+        href: "/demo",
+        description: "Guarda questi testi dentro una Guest Guide completa.",
+      },
+      {
+        label: "Prezzi",
+        href: "/prezzi",
+        description:
+          "Non hai tempo di scriverla? La prepariamo noi, una tantum.",
+      },
+    ],
+  },
+  {
+    slug: "check-in-autonomo-istruzioni-ospiti",
+    title: "Check-in autonomo: come scrivere istruzioni chiare per gli ospiti",
+    seoTitle: "Check-in autonomo: istruzioni per gli ospiti",
+    description:
+      "Come preparare istruzioni di self check-in chiare per B&B e case vacanza: cosa inviare, quando, con quali foto, e il piano B se qualcosa va storto.",
+    topic: "Ospitalità",
+    date: "2026-11-15",
+    displayDate: "15 novembre 2026",
+    readingMinutes: 6,
+    intro:
+      "Il check-in autonomo libera tempo, ma sposta tutto il peso dell'arrivo su un testo: se le istruzioni sono chiare, l'ospite entra sereno; se manca un dettaglio, il telefono suona alle undici di sera. Ecco come scriverle bene, cosa inviare e quando, e cosa prevedere quando qualcosa non va come previsto.",
+    sections: [
+      {
+        heading:
+          "Prima di tutto: verifica le regole sull'identificazione degli ospiti",
+        paragraphs: [
+          "In Italia chi ospita, anche con affitti brevi, deve identificare gli ospiti con un documento valido e comunicarne le generalità alla Questura tramite il portale Alloggiati Web entro 24 ore dall'arrivo. Le istruzioni di questo articolo riguardano l'accesso alla casa: l'identificazione resta un obbligo a parte. Negli ultimi anni le modalità di identificazione nel check-in senza incontro sono state oggetto di circolari ministeriali e ricorsi, e alcuni Comuni hanno regole proprie su cassette portachiavi e segnaletica. Prima di organizzare il self check-in verifica le indicazioni aggiornate con il tuo Comune, la Questura o un'associazione di categoria.",
+        ],
+      },
+      {
+        heading: "Le 5 informazioni che non possono mancare",
+        paragraphs: [
+          "Ogni messaggio di check-in autonomo dovrebbe coprire questi cinque punti:",
+        ],
+        list: [
+          "Indirizzo completo e preciso: via, numero, interno, scala, piano, nome sul citofono se serve",
+          "Come raggiungere la porta: dal parcheggio o dalla fermata, con i punti di riferimento visibili (“il portone verde accanto alla farmacia”)",
+          "Come prendere le chiavi o aprire: cassetta con codice, serratura smart, chiave in custodia presso un esercizio vicino",
+          "Cosa fare appena entrati: luce, quadro elettrico, Wi-Fi, dove trovare la guida della casa",
+          "Il piano B: chi chiamare e cosa fare se qualcosa non funziona",
+        ],
+      },
+      {
+        heading: "Le foto valgono più delle parole",
+        paragraphs: [
+          "Una foto del portone, una della cassetta o della serratura e una della porta dell'appartamento eliminano la maggior parte delle incertezze. Aggiungi una freccia o un cerchio sul punto giusto.",
+          "Scatta le foto di giorno ma ricorda che molti ospiti arrivano col buio: segnala se il portone ha una luce o un interruttore difficile da trovare.",
+        ],
+      },
+      {
+        heading: "Quando inviare le istruzioni",
+        paragraphs: ["Tre momenti, tre messaggi diversi:"],
+        list: [
+          "Alla prenotazione: un messaggio breve con indirizzo e orari (“vi manderemo le istruzioni dettagliate due giorni prima”)",
+          "24–48 ore prima dell'arrivo: le istruzioni complete, con foto e link alla guida",
+          "Il giorno dell'arrivo: il codice (se cambia a ogni soggiorno) e un promemoria del piano B",
+        ],
+      },
+      {
+        heading: "Un esempio di messaggio da adattare",
+        paragraphs: [
+          "Mandare tutto troppo presto rischia che l'ospite perda il messaggio; mandarlo all'ultimo rischia che non lo legga in viaggio. Ecco un esempio per il messaggio completo:",
+          "“Ciao Laura, ecco come entrare a CasaDemo venerdì.",
+          "📍 Via Demo 12, Comune Demo. Il portone è quello verde accanto alla farmacia (foto 1).",
+          "🔑 A sinistra del portone c'è una cassetta grigia (foto 2): codice 0000, giratelo e tirate lo sportello verso di voi. Dentro trovate due chiavi: la grande apre il portone, la piccola l'appartamento.",
+          "🏠 Secondo piano, porta a destra (foto 3). L'interruttore della luce è subito a sinistra.",
+          "📶 Wi-Fi e tutte le info della casa sono nella guida: [link].",
+          "☎️ Problemi? Chiamate Anna al +39 000 000 0000, fino a mezzanotte. Buon viaggio!”",
+        ],
+      },
+      {
+        heading: "Il piano B: cosa succede se qualcosa va storto",
+        paragraphs: [
+          "Batteria della serratura scarica, codice digitato male, cassetta bloccata dal gelo: succede. Scrivi in anticipo:",
+          "Controlla periodicamente batterie, codici e funzionamento della cassetta: le istruzioni migliori non servono se l'hardware non risponde.",
+        ],
+        list: [
+          "Un numero da chiamare e fino a che ora risponde qualcuno",
+          "Un'alternativa concreta: chiave di riserva presso un vicino o un esercizio, codice di emergenza",
+          "Cosa fare in attesa (“il bar all'angolo è aperto fino alle 23”)",
+        ],
+      },
+      {
+        heading: "Ospiti stranieri: semplifica",
+        paragraphs: [
+          "Frasi brevi, una istruzione per riga, numeri e codici ben separati dal testo. Evita modi di dire. Se usi una traduzione automatica, rileggila o falla rileggere: un “tirare” tradotto “spingere” basta a bloccare l'ospite davanti alla porta.",
+        ],
+      },
+      {
+        heading: "Metti tutto in un posto solo",
+        paragraphs: [
+          "Il messaggio di arrivo funziona meglio se rimanda a una pagina unica, sempre aggiornata, con le stesse istruzioni, le foto, il Wi-Fi e le regole della casa. Così l'ospite non deve scorrere la chat per ritrovare il codice, e tu aggiorni un solo testo quando cambia qualcosa.",
+          "Per sapere cosa inserire nel resto della guida, leggi gli esempi di testi pronti tra i link qui sotto.",
+        ],
+      },
+    ],
+    relatedLinks: [
+      {
+        label: "Cosa scrivere nella guida per gli ospiti",
+        href: "/risorse/cosa-scrivere-guida-ospiti-casa-vacanza",
+        description:
+          "Esempi di testi pronti, sezione per sezione, da adattare alla tua casa.",
+      },
+      {
+        label: "Ridurre le domande ripetitive degli ospiti",
+        href: "/risorse/ridurre-domande-ripetitive-ospiti",
+        description:
+          "Perché le domande si ripetono e come dare un posto unico alle risposte.",
+      },
+      {
+        label: "Prova la demo interattiva",
+        href: "/demo",
+        description:
+          "Esplora una Guest Guide completa: soggiorno, territorio e contatti.",
+      },
+    ],
+  },
 ];
 
 export function getArticle(slug: string): Article | undefined {
