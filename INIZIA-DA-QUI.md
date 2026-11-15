@@ -122,7 +122,30 @@ Al termine: QA completa, commit, push, verifica in produzione e test manuale cre
 
 - Pagina pubblica data-driven (IT + EN), `noindex`, 404 per guide in bozza/inesistenti.
 - **Unificare il renderer** con quello della demo (`components/demo`, `data/demo-guide.ts`) per riusare
-  i guardrail già coperti dagli e2e.
+  i guardrail già coperti dagli e2e. **FATTO (MVP, branch `feat/guide-pubbliche`)**: vedi sotto.
+
+#### MVP guide pubbliche (contenuti nel repo, senza editor)
+
+- URL: `/g/<slug>` (IT) e `/g/<slug>/en` (EN facoltativo). Prerenderizzate in build, `noindex,nofollow`,
+  fuori dalla sitemap, `/g/` in disallow su robots.txt. Header/footer del sito nascosti
+  (`data-guest-guide` + regola in `app/globals.css`).
+- Tipi condivisi: `lib/guide/types.ts` (`GuideContent`, `GuideDefinition`). Renderer condiviso con la demo:
+  `components/guide/` (`GuideShell` + schermate). `components/demo/GuideDemo.tsx` è solo l'involucro demo.
+- 404 veri: `proxy.ts` accetta solo i path di `data/guides/manifest.ts` (stesso rewrite di `/risorse`).
+- Test: `tests/e2e/guide.spec.ts`.
+
+**Come pubblicare la guida di un cliente**
+
+1. Copiare `data/guides/esempio-casa-del-borgo.ts` in `data/guides/<slug>.ts` (slug minuscolo con trattini,
+   non indovinabile se la guida è privata) e compilare i contenuti reali forniti dal cliente
+   (niente `isSample`, `disclaimer` facoltativo). `contacts.links` (`phone` in formato `+39...`, `email`,
+   `mapsUrl`) e `place.mapsUrl` attivano link reali; se mancano, l'azione non viene mostrata.
+2. Aggiungere `{ slug: "<slug>", languages: ["it"] }` (o `["it", "en"]`) in `data/guides/manifest.ts`.
+3. Registrare il file in `data/guides/index.ts` (`guides`). Manifest e contenuti incoerenti rompono la build.
+4. `npm run typecheck && npm run build`, commit, deploy. Consegnare al cliente l'URL (e il QR) di `/g/<slug>`.
+
+Non rimuovere la guida di esempio: con `cacheComponents` serve almeno uno slug (e uno con EN) a
+`generateStaticParams`, altrimenti la build fallisce.
 
 ### FASE 5 — Legale e chiusura
 

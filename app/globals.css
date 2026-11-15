@@ -158,3 +158,17 @@
 .text-balance {
   text-wrap: balance;
 }
+
+/* Guide pubbliche /g/[slug]: niente header/footer del sito marketing. */
+body:has([data-guest-guide]) [data-site-chrome] {
+  display: none;
+}
+
+/*
+ * Sulle guide il banner cookie non compare in automatico: coprirebbe la tab
+ * bar e le guide non caricano analytics (GA parte solo con consenso dato sul
+ * sito). Resta apribile su richiesta esplicita (data-consent-manual).
+ */
+body:has([data-guest-guide]) [data-cookie-consent]:not([data-consent-manual]) {
+  display: none;
+}

@@ -95,7 +95,7 @@ test.describe("SEO tecnico", () => {
     const body = await response.text();
     expect(body).toContain("sitemap");
     // Nessun blocco totale: sono ammesse solo esclusioni di path privati
-    // (/area/, /accedi, /g/, /api/), non un "Disallow: /" complessivo.
+    // (/area/, /accedi, /api/), non un "Disallow: /" complessivo.
     expect(body).not.toMatch(/^Disallow: \/$/m);
     expect(body).toContain("Allow: /");
   });

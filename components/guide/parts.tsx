@@ -3,7 +3,9 @@
 import type { ReactNode } from "react";
 import { Info } from "lucide-react";
 
-export function DemoDisclaimer({ text }: { text: string }) {
+/** Avviso informativo (es. dati fittizi). Non renderizza nulla senza testo. */
+export function Disclaimer({ text }: { text?: string }) {
+  if (!text) return null;
   return (
     <p className="mt-4 flex items-start gap-2 rounded-2xl border border-line bg-sage-100/70 px-3.5 py-3 text-[11px] leading-relaxed text-forest/80">
       <Info aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-copper-700" />
@@ -36,7 +38,7 @@ export function ScreenHeading({
   );
 }
 
-export function DemoCard({
+export function GuideCard({
   children,
   className,
 }: {
@@ -47,5 +49,43 @@ export function DemoCard({
     <div className={className ?? "rounded-2xl border border-line bg-paper p-4"}>
       {children}
     </div>
+  );
+}
+
+/**
+ * Azione della guida: link reale se c'e' `href`, altrimenti bottone che delega
+ * al genitore (toast della demo). Stesse classi in entrambi i casi.
+ */
+export function GuideAction({
+  href,
+  onClick,
+  className,
+  children,
+  hideWithoutHref = false,
+}: {
+  href?: string;
+  onClick: () => void;
+  /** Guide reali: un'azione senza recapito non viene mostrata. */
+  hideWithoutHref?: boolean;
+  className: string;
+  children: ReactNode;
+}) {
+  if (href) {
+    const external = /^https?:/.test(href);
+    return (
+      <a
+        href={href}
+        className={className}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
+        {children}
+      </a>
+    );
+  }
+  if (hideWithoutHref) return null;
+  return (
+    <button type="button" onClick={onClick} className={className}>
+      {children}
+    </button>
   );
 }

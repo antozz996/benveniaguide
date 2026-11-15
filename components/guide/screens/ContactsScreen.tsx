@@ -7,17 +7,25 @@ import {
   Phone,
   Sparkles,
 } from "lucide-react";
-import { DemoDisclaimer, DemoCard, ScreenHeading } from "@/components/demo/parts";
-import type { DemoGuideContent } from "@/data/demo-guide";
+import {
+  Disclaimer,
+  GuideAction,
+  GuideCard,
+  ScreenHeading,
+} from "@/components/guide/parts";
+import type { GuideContent } from "@/lib/guide/types";
 
 export function ContactsScreen({
   content,
-  onDemoAction,
+  onAction,
+  hideUnlinkedActions = false,
 }: {
-  content: DemoGuideContent;
-  onDemoAction: (target: string) => void;
+  content: GuideContent;
+  onAction: (target: string) => void;
+  hideUnlinkedActions?: boolean;
 }) {
   const { contacts, structure } = content;
+  const links = contacts.links;
 
   return (
     <div>
@@ -27,7 +35,7 @@ export function ContactsScreen({
         intro={contacts.intro}
       />
 
-      <DemoCard className="rounded-2xl border border-line bg-paper p-4">
+      <GuideCard className="rounded-2xl border border-line bg-paper p-4">
         <div className="flex items-center gap-3">
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-forest font-display text-lg font-semibold text-ivory">
             {contacts.host.name.charAt(0)}
@@ -46,39 +54,42 @@ export function ContactsScreen({
         <p className="mt-3 text-[11px] leading-relaxed text-muted">
           {contacts.host.note}
         </p>
-      </DemoCard>
+      </GuideCard>
 
       <div className="mt-3 space-y-2">
-        <button
-          type="button"
-          onClick={() => onDemoAction("call")}
+        <GuideAction
+          hideWithoutHref={hideUnlinkedActions}
+          href={links?.phone ? `tel:${links.phone}` : undefined}
+          onClick={() => onAction("call")}
           className="flex w-full items-center gap-3 rounded-2xl bg-forest px-4 py-3.5 text-left text-ivory transition-transform duration-200 hover:-translate-y-0.5"
         >
           <Phone aria-hidden="true" className="h-4 w-4" />
           <span className="text-[13px] font-semibold">
             {contacts.actions.call}
           </span>
-        </button>
-        <button
-          type="button"
-          onClick={() => onDemoAction("email")}
+        </GuideAction>
+        <GuideAction
+          hideWithoutHref={hideUnlinkedActions}
+          href={links?.email ? `mailto:${links.email}` : undefined}
+          onClick={() => onAction("email")}
           className="flex w-full items-center gap-3 rounded-2xl border border-line bg-paper px-4 py-3.5 text-left text-forest transition-transform duration-200 hover:-translate-y-0.5"
         >
           <Mail aria-hidden="true" className="h-4 w-4" />
           <span className="text-[13px] font-semibold">
             {contacts.actions.email}
           </span>
-        </button>
-        <button
-          type="button"
-          onClick={() => onDemoAction("directions")}
+        </GuideAction>
+        <GuideAction
+          hideWithoutHref={hideUnlinkedActions}
+          href={links?.mapsUrl}
+          onClick={() => onAction("directions")}
           className="flex w-full items-center gap-3 rounded-2xl border border-line bg-paper px-4 py-3.5 text-left text-forest transition-transform duration-200 hover:-translate-y-0.5"
         >
           <Navigation aria-hidden="true" className="h-4 w-4" />
           <span className="text-[13px] font-semibold">
             {contacts.actions.directions}
           </span>
-        </button>
+        </GuideAction>
       </div>
 
       <h4 className="mt-5 mb-2.5 text-[11px] font-semibold tracking-[0.16em] text-forest/70 uppercase">
@@ -104,7 +115,7 @@ export function ContactsScreen({
         ))}
       </div>
 
-      <DemoDisclaimer text={structure.disclaimer} />
+      <Disclaimer text={structure.disclaimer} />
     </div>
   );
 }

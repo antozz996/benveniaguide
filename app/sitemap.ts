@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: number;
     changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
   }[] = [
+    // NON aggiungere /g/*: le guide degli ospiti sono private (noindex).
     { path: "", priority: 1, changeFrequency: "weekly" },
     { path: "/demo", priority: 0.9, changeFrequency: "weekly" },
     { path: "/come-funziona", priority: 0.8, changeFrequency: "monthly" },

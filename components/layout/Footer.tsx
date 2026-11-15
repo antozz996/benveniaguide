@@ -5,7 +5,7 @@ import { footerNavigation, siteConfig } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="bg-forest text-ivory">
+    <footer data-site-chrome className="bg-forest text-ivory">
       <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_2fr]">
           <div className="max-w-sm">

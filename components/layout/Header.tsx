@@ -58,6 +58,7 @@ export function Header() {
 
   return (
     <header
+      data-site-chrome
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300",
         scrolled || open

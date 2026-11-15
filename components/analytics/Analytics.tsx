@@ -8,6 +8,7 @@ import {
   CONSENT_CHANGED_EVENT,
   flushAnalyticsQueue,
   hasAnalyticsConsent,
+  isGuidePath,
   trackEvent,
 } from "@/lib/analytics";
 
@@ -31,16 +32,25 @@ export function Analytics() {
     hasAnalyticsConsent,
     getServerConsent,
   );
+  const isGuide = isGuidePath(pathname);
 
   useEffect(() => {
-    if (!enabled) return;
+    // Se GA4 e' gia' stato caricato altrove (navigazione client verso /g/),
+    // il flag ufficiale ga-disable-<ID> blocca ogni invio sulle guide.
+    if (GA_MEASUREMENT_ID) {
+      (window as unknown as Record<string, unknown>)[
+        `ga-disable-${GA_MEASUREMENT_ID}`
+      ] = isGuide;
+    }
+    if (!enabled || isGuide) return;
     trackEvent(ANALYTICS_EVENTS.pageView, {
       page_path: pathname,
       page_location: window.location.href,
     });
-  }, [enabled, pathname]);
+  }, [enabled, isGuide, pathname]);
 
-  if (!GA_MEASUREMENT_ID || !enabled) return null;
+  // Guide ospiti: GA4 mai caricato, a prescindere dal consenso salvato.
+  if (!GA_MEASUREMENT_ID || !enabled || isGuide) return null;
 
   return (
     <>

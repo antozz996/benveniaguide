@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
-import { PlaceArt } from "@/components/demo/PlaceArt";
-import { ScreenHeading } from "@/components/demo/parts";
-import type { DemoGuideContent, DemoPlace } from "@/data/demo-guide";
+import { PlaceArt } from "@/components/guide/PlaceArt";
+import { ScreenHeading } from "@/components/guide/parts";
+import type { GuideContent, GuidePlace } from "@/lib/guide/types";
 import { cn } from "@/lib/utils";
 
 export function ExploreScreen({
@@ -12,8 +12,8 @@ export function ExploreScreen({
   onOpenPlace,
   onInteraction,
 }: {
-  content: DemoGuideContent;
-  onOpenPlace: (place: DemoPlace) => void;
+  content: GuideContent;
+  onOpenPlace: (place: GuidePlace) => void;
   onInteraction: (action: string, detail?: string) => void;
 }) {
   const { explore } = content;

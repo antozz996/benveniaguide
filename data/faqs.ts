@@ -22,7 +22,7 @@ export const homeFaqs: FaqItem[] = [
   },
   {
     q: "Quanto costa?",
-    a: "Non pubblichiamo listini standard perché ogni struttura ha esigenze diverse. Nella pagina Prezzi trovi come funziona la richiesta di offerta personalizzata: la prima demo è gratuita e senza impegno.",
+    a: "Si paga una volta sola, senza abbonamento: da €49 per la guida Base, €79 per la Completa (italiano e inglese, territorio, cartello QR) e €59 a struttura da 3 strutture in su. Trovi tutti i dettagli nella pagina Prezzi.",
   },
   {
     q: "Posso aggiornare i contenuti nel tempo?",

@@ -15,7 +15,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/area/", "/accedi", "/g/", "/api/"],
+      // /g/ NON e' in disallow: le guide devono essere scansionabili perche'
+      // Google legga il noindex (meta + header X-Robots-Tag da proxy.ts).
+      disallow: ["/area/", "/accedi", "/api/"],
     },
     sitemap: `${siteUrl}/sitemap.xml`,
     host: siteUrl,

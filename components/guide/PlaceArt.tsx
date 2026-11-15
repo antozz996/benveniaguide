@@ -1,4 +1,4 @@
-import type { PlaceArt as PlaceArtKind } from "@/data/demo-guide";
+import type { PlaceArtKind } from "@/lib/guide/types";
 import { cn } from "@/lib/utils";
 
 const gradients: Record<PlaceArtKind, string> = {

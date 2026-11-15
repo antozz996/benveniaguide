@@ -4,156 +4,37 @@
  * identificati come demo. La demo pubblica non deve mai contenere dati reali.
  */
 
-export type DemoLang = "it" | "en";
+import type {
+  DemoUi,
+  GuideContent,
+  GuideFaqItem,
+  GuideLang,
+  GuidePlace,
+  GuidePlaceGroup,
+  GuideQuickLink,
+  GuideRule,
+  GuideScreen,
+  GuideService,
+  PlaceArtKind,
+} from "@/lib/guide/types";
 
-export type DemoScreen = "welcome" | "stay" | "explore" | "contacts";
+export { guideScreenOrder as demoScreenOrder } from "@/lib/guide/types";
+export type { ServiceIcon } from "@/lib/guide/types";
 
-export type PlaceArt =
-  | "lake"
-  | "village"
-  | "hills"
-  | "garden"
-  | "table"
-  | "coffee"
-  | "gelato"
-  | "boat"
-  | "market"
-  | "path";
-
-export interface DemoPlace {
-  id: string;
-  name: string;
-  category: string;
-  distance: string;
-  description: string;
-  tip: string;
-  art: PlaceArt;
-}
-
-export interface DemoPlaceGroup {
-  id: "attractions" | "dining" | "experiences";
-  label: string;
-  places: DemoPlace[];
-}
-
-export type ServiceIcon =
-  | "coffee"
-  | "car"
-  | "waves"
-  | "bath"
-  | "snowflake"
-  | "recycle";
-
-export interface DemoService {
-  id: string;
-  name: string;
-  detail: string;
-  hours?: string;
-  icon: ServiceIcon;
-}
-
-export interface DemoRule {
-  id: string;
-  title: string;
-  detail: string;
-}
-
-export interface DemoFaqItem {
-  q: string;
-  a: string;
-}
-
-export interface DemoQuickLink {
-  id: string;
-  screen: DemoScreen;
-  label: string;
-  hint: string;
-  icon: "bed" | "wifi" | "book" | "map" | "phone";
-}
-
-export interface DemoGuideContent {
-  structure: {
-    name: string;
-    location: string;
-    tagline: string;
-    disclaimer: string;
-  };
-  welcome: {
-    eyebrow: string;
-    title: string;
-    message: string;
-    signature: string;
-    quickLinksTitle: string;
-    quickLinks: DemoQuickLink[];
-  };
-  stay: {
-    eyebrow: string;
-    title: string;
-    intro: string;
-    checkin: {
-      title: string;
-      time: string;
-      detail: string;
-    };
-    checkout: {
-      title: string;
-      time: string;
-      detail: string;
-    };
-    wifi: {
-      title: string;
-      networkLabel: string;
-      network: string;
-      passwordLabel: string;
-      password: string;
-      note: string;
-    };
-    servicesTitle: string;
-    services: DemoService[];
-    rulesTitle: string;
-    rulesIntro: string;
-    rules: DemoRule[];
-  };
-  explore: {
-    eyebrow: string;
-    title: string;
-    intro: string;
-    groups: DemoPlaceGroup[];
-    detailLabels: {
-      distance: string;
-      tip: string;
-      close: string;
-    };
-  };
-  contacts: {
-    eyebrow: string;
-    title: string;
-    intro: string;
-    host: {
-      name: string;
-      role: string;
-      note: string;
-    };
-    actions: {
-      call: string;
-      email: string;
-      directions: string;
-    };
-    faqTitle: string;
-    faq: DemoFaqItem[];
-  };
-  ui: {
-    demoBadge: string;
-    demoNotice: string;
-    toastDemo: string;
-    openFullscreen: string;
-    closeFullscreen: string;
-    backToSite: string;
-    languageLabel: string;
-    statusTime: string;
-    tabs: Record<DemoScreen, string>;
-  };
-}
+// Alias retrocompatibili: i tipi vivono in lib/guide/types.ts.
+export type DemoLang = GuideLang;
+export type DemoScreen = GuideScreen;
+export type PlaceArt = PlaceArtKind;
+export type DemoPlace = GuidePlace;
+export type DemoPlaceGroup = GuidePlaceGroup;
+export type DemoService = GuideService;
+export type DemoRule = GuideRule;
+export type DemoFaqItem = GuideFaqItem;
+export type DemoQuickLink = GuideQuickLink;
+/** La demo ha sempre il disclaimer e i testi UI specifici della demo. */
+export type DemoGuideContent = GuideContent<DemoUi> & {
+  structure: { disclaimer: string };
+};
 
 export const demoGuide: Record<DemoLang, DemoGuideContent> = {
   it: {
@@ -833,10 +714,3 @@ export const demoGuide: Record<DemoLang, DemoGuideContent> = {
     },
   },
 };
-
-export const demoScreenOrder: DemoScreen[] = [
-  "welcome",
-  "stay",
-  "explore",
-  "contacts",
-];

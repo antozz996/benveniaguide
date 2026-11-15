@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowRight, BadgeCheck, CircleHelp } from "lucide-react";
+import { ArrowRight, BadgeCheck, Sparkles } from "lucide-react";
 import { CTASection } from "@/components/CTASection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHero } from "@/components/PageHero";
@@ -8,8 +8,9 @@ import { CtaLink } from "@/components/ui/CtaLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import {
-  pricingFactors,
-  pricingNotice,
+  pricingExtras,
+  pricingIncluded,
+  pricingLaunchOffer,
   pricingPackages,
   pricingSteps,
 } from "@/data/pricing";
@@ -20,9 +21,9 @@ import { breadcrumbJsonLd } from "@/lib/structured-data";
 export const metadata: Metadata = buildMetadata({
   title: "Prezzi",
   description:
-    "Come funziona l'offerta Benvenia Guide: nessun pacchetto preconfezionato, ogni struttura riceve una proposta su misura e trasparente, costruita su esigenze reali.",
+    "Prezzi Benvenia Guide: la guida digitale per i tuoi ospiti scritta da noi, pronta in 48 ore, da €49. Paghi una volta, nessun abbonamento.",
   path: "/prezzi",
-  ogTitle: "Prezzi trasparenti, offerte su misura · Benvenia Guide",
+  ogTitle: "Da €49, una tantum, nessun abbonamento · Benvenia Guide",
   keywords: [
     "costo guest guide",
     "prezzo guida digitale B&B",
@@ -44,12 +45,12 @@ export default function PrezziPage() {
         eyebrow="Prezzi"
         title={
           <>
-            Un&apos;offerta costruita sul{" "}
-            <em className="font-serif font-medium italic">tuo caso</em>, non su
-            un listino.
+            Paghi{" "}
+            <em className="font-serif font-medium italic">una volta</em>.
+            Nessun abbonamento.
           </>
         }
-        lead="Ogni struttura accoglie ospiti diversi, con esigenze diverse. Per questo preferiamo ascoltarti prima di parlare di cifre: riceverai una proposta chiara, motivata e senza sorprese."
+        lead="La guida per i tuoi ospiti la scriviamo noi: pronta in 48 ore, da €49."
         crumbs={[{ label: "Home", href: "/" }, { label: "Prezzi" }]}
       />
 
@@ -58,13 +59,13 @@ export default function PrezziPage() {
           <Reveal>
             <div className="mx-auto max-w-3xl rounded-[2rem] border border-copper/40 bg-copper/5 p-7 text-center sm:p-9">
               <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-copper/15">
-                <CircleHelp aria-hidden="true" className="h-6 w-6 text-copper-700" />
+                <Sparkles aria-hidden="true" className="h-6 w-6 text-copper-700" />
               </span>
               <h2 className="mt-5 font-display text-xl font-semibold text-forest">
-                Perché non trovi un listino
+                {pricingLaunchOffer.title}
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-charcoal sm:text-base">
-                {pricingNotice}
+                {pricingLaunchOffer.description}
               </p>
             </div>
           </Reveal>
@@ -74,11 +75,20 @@ export default function PrezziPage() {
               {pricingPackages.map((pack) => (
                 <div
                   key={pack.id}
-                  className="flex flex-col rounded-[2rem] border border-line bg-paper p-7 shadow-soft"
+                  className={`flex flex-col rounded-[2rem] border bg-paper p-7 shadow-soft ${
+                    pack.highlighted ? "border-copper ring-2 ring-copper/30" : "border-line"
+                  }`}
                 >
-                  <h3 className="font-display text-lg font-semibold text-forest">
-                    {pack.name}
-                  </h3>
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="font-display text-lg font-semibold text-forest">
+                      {pack.name}
+                    </h3>
+                    {pack.highlighted ? (
+                      <span className="rounded-full bg-copper/15 px-3 py-1 text-xs font-semibold text-copper-700">
+                        Più scelto
+                      </span>
+                    ) : null}
+                  </div>
                   <p className="mt-2 text-sm text-muted">{pack.description}</p>
                   <p className="mt-5 font-display text-2xl font-semibold text-forest">
                     {pack.price}
@@ -100,19 +110,37 @@ export default function PrezziPage() {
                       </li>
                     ))}
                   </ul>
+                  <CtaLink
+                    href="/contatti"
+                    variant={pack.highlighted ? "copper" : undefined}
+                    className="mt-6 self-start"
+                    event={ANALYTICS_EVENTS.ctaClick}
+                    eventParams={{ cta: `pricing_${pack.id}` }}
+                  >
+                    Scegli {pack.name}
+                    <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                  </CtaLink>
                 </div>
               ))}
             </div>
           ) : null}
+
+          <ul className="mx-auto mt-8 max-w-3xl space-y-1 text-center text-sm text-muted">
+            {pricingExtras.map((extra) => (
+              <li key={extra.label}>
+                {extra.label}: <strong className="text-forest">{extra.price}</strong>
+              </li>
+            ))}
+          </ul>
         </Container>
       </section>
 
       <section className="bg-paper py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Come si arriva all'offerta"
+            eyebrow="Come funziona"
             title="Quattro passi, nessuna sorpresa"
-            lead="Un percorso semplice e trasparente, dal primo contatto all'attivazione della guida."
+            lead="Dal primo contatto alla guida online in 48 ore."
           />
           <ol className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {pricingSteps.map((step, index) => (
@@ -141,12 +169,12 @@ export default function PrezziPage() {
       <section className="py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Cosa influenza il prezzo"
-            title="I fattori che modellano la proposta"
-            lead="La nostra offerta varia in base a cinque fattori concreti. Puoi già riconoscere il tuo profilo e prepararti alla call."
+            eyebrow="Sempre incluso"
+            title="Cosa ottieni con ogni pacchetto"
+            lead="Un prezzo chiaro, una volta sola."
           />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {pricingFactors.map((factor, index) => (
+            {pricingIncluded.map((factor, index) => (
               <Reveal key={factor.title} delayMs={index * 60} className="h-full">
                 <div className="h-full rounded-[2rem] border border-line bg-paper p-6 shadow-soft">
                   <h3 className="font-display text-base font-semibold text-forest">
@@ -161,9 +189,8 @@ export default function PrezziPage() {
             <Reveal delayMs={300} className="h-full">
               <div className="flex h-full flex-col justify-between rounded-[2rem] bg-forest p-6 text-ivory shadow-soft">
                 <p className="text-sm leading-relaxed text-ivory/80">
-                  Vuoi subito un&apos;idea più concreta? Raccontaci la tua
-                  struttura: al primo contatto ti diciamo anche in che fascia
-                  ci muoviamo, prima ancora dell&apos;offerta formale.
+                  Hai dubbi su quale pacchetto scegliere? Scrivici: ti
+                  rispondiamo in giornata.
                 </p>
                 <CtaLink
                   href="/contatti"
@@ -172,7 +199,7 @@ export default function PrezziPage() {
                   event={ANALYTICS_EVENTS.ctaClick}
                   eventParams={{ cta: "pricing_factors" }}
                 >
-                  Richiedi un&apos;offerta
+                  Contattaci
                   <ArrowRight aria-hidden="true" className="h-4 w-4" />
                 </CtaLink>
               </div>
@@ -182,8 +209,8 @@ export default function PrezziPage() {
       </section>
 
       <CTASection
-        title="Pronto a conoscere la cifra giusta per te?"
-        description="Nessun costo nascosto, nessun vincolo lungo: prima capiamo di cosa hai bisogno, poi mettiamo tutto nero su bianco."
+        title="La tua guida, pronta in 48 ore"
+        description="Da €49, una volta sola. Nessun abbonamento, nessun costo nascosto."
       />
     </>
   );

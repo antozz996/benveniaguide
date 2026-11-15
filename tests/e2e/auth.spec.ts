@@ -130,12 +130,13 @@ test.describe("Accesso all'area riservata", () => {
     expect(robots).toContain("noindex");
   });
 
-  test("robots.txt esclude area, accesso e guide", async ({ request }) => {
+  test("robots.txt esclude area e accesso, non le guide", async ({ request }) => {
     const response = await request.get("/robots.txt");
     expect(response.ok()).toBe(true);
     const body = await response.text();
     expect(body).toContain("Disallow: /area/");
     expect(body).toContain("Disallow: /accedi");
-    expect(body).toContain("Disallow: /g/");
+    // Le guide restano scansionabili: il loro noindex deve essere letto.
+    expect(body).not.toContain("Disallow: /g/");
   });
 });

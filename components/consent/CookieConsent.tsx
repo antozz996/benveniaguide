@@ -96,6 +96,8 @@ export function CookieConsent() {
       aria-modal="false"
       aria-labelledby="cookie-consent-title"
       aria-describedby="cookie-consent-description"
+      data-cookie-consent=""
+      data-consent-manual={manuallyOpened ? "" : undefined}
       className="fixed inset-x-3 bottom-3 z-[70] sm:inset-x-auto sm:right-6 sm:bottom-6 sm:max-w-md"
     >
       <div className="rounded-3xl border border-line bg-paper p-5 shadow-lift sm:p-6">

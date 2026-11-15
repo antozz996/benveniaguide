@@ -10,8 +10,9 @@ import {
   Snowflake,
   Waves,
 } from "lucide-react";
-import { DemoCard, ScreenHeading } from "@/components/demo/parts";
-import type { DemoGuideContent, ServiceIcon } from "@/data/demo-guide";
+import { GuideCard, ScreenHeading } from "@/components/guide/parts";
+import type { GuideContent, ServiceIcon } from "@/lib/guide/types";
+import { cn } from "@/lib/utils";
 
 const serviceIcons: Record<ServiceIcon, typeof Coffee> = {
   coffee: Coffee,
@@ -24,12 +25,18 @@ const serviceIcons: Record<ServiceIcon, typeof Coffee> = {
 
 export function StayScreen({
   content,
-  onDemoAction,
+  onAction,
+  actionLabelSuffix = "",
+  largeTargets = false,
 }: {
-  content: DemoGuideContent;
-  onDemoAction: (target: string) => void;
+  content: GuideContent;
+  onAction: (target: string) => void;
+  /** Suffisso dell'aria-label del bottone copia (la demo usa " (demo)"). */
+  actionLabelSuffix?: string;
+  /** Telefono reale: bottone copia con area di tocco >= 44px (con lo zoom). */
+  largeTargets?: boolean;
 }) {
-  const { stay } = content;
+  const { stay, ui } = content;
 
   return (
     <div>
@@ -40,7 +47,7 @@ export function StayScreen({
       />
 
       <div className="grid grid-cols-2 gap-2.5">
-        <DemoCard className="rounded-2xl border border-line bg-paper p-3.5">
+        <GuideCard className="rounded-2xl border border-line bg-paper p-3.5">
           <p className="text-[10px] font-semibold tracking-[0.14em] text-copper-700 uppercase">
             {stay.checkin.title}
           </p>
@@ -50,8 +57,8 @@ export function StayScreen({
           <p className="mt-1.5 text-[11px] leading-relaxed text-muted">
             {stay.checkin.detail}
           </p>
-        </DemoCard>
-        <DemoCard className="rounded-2xl border border-line bg-paper p-3.5">
+        </GuideCard>
+        <GuideCard className="rounded-2xl border border-line bg-paper p-3.5">
           <p className="text-[10px] font-semibold tracking-[0.14em] text-copper-700 uppercase">
             {stay.checkout.title}
           </p>
@@ -61,10 +68,10 @@ export function StayScreen({
           <p className="mt-1.5 text-[11px] leading-relaxed text-muted">
             {stay.checkout.detail}
           </p>
-        </DemoCard>
+        </GuideCard>
       </div>
 
-      <DemoCard className="mt-2.5 rounded-2xl bg-forest p-4 text-ivory">
+      <GuideCard className="mt-2.5 rounded-2xl bg-forest p-4 text-ivory">
         <p className="text-[10px] font-semibold tracking-[0.14em] text-copper uppercase">
           {stay.wifi.title}
         </p>
@@ -85,11 +92,17 @@ export function StayScreen({
               {stay.wifi.password}
               <button
                 type="button"
-                onClick={() => onDemoAction("wifi_copy")}
-                className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-ivory/10 text-ivory/80 transition-colors hover:bg-ivory/20 hover:text-ivory"
-                aria-label={`Copia ${stay.wifi.passwordLabel.toLowerCase()} (demo)`}
+                onClick={() => onAction("wifi_copy")}
+                className={cn(
+                  "inline-flex shrink-0 items-center justify-center rounded-lg bg-ivory/10 text-ivory/80 transition-colors hover:bg-ivory/20 hover:text-ivory",
+                  largeTargets ? "h-9 w-9" : "h-6 w-6",
+                )}
+                aria-label={`${ui.copyLabel ?? "Copia"} ${stay.wifi.passwordLabel.toLowerCase()}${actionLabelSuffix}`}
               >
-                <Copy aria-hidden="true" className="h-3 w-3" />
+                <Copy
+                  aria-hidden="true"
+                  className={largeTargets ? "h-3.5 w-3.5" : "h-3 w-3"}
+                />
               </button>
             </dd>
           </div>
@@ -97,7 +110,7 @@ export function StayScreen({
         <p className="mt-3 text-[10px] leading-relaxed text-ivory/60">
           {stay.wifi.note}
         </p>
-      </DemoCard>
+      </GuideCard>
 
       <h4 className="mt-5 mb-2.5 text-[11px] font-semibold tracking-[0.16em] text-forest/70 uppercase">
         {stay.servicesTitle}
