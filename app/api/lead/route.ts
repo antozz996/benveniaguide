@@ -1,71 +1,11 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { formatZodErrors, leadRequestSchema, type LeadRequest } from "@/lib/validation";
+import { buildLeadEmail } from "@/lib/emails";
+import { formatZodErrors, leadRequestSchema } from "@/lib/validation";
 import { rateLimit } from "@/lib/rate-limit";
 
 /** Tempo minimo di compilazione: sotto questa soglia la richiesta è sospetta. */
 const MIN_ELAPSED_MS = 1500;
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-function buildPlainText(data: LeadRequest): string {
-  const lines = [
-    "Nuova richiesta di demo — Benvenia Guide",
-    "",
-    `Nome: ${data.name}`,
-    `Struttura: ${data.structureName}`,
-    `Email: ${data.email}`,
-    `Tipologia: ${data.structureType}`,
-    `Sito web: ${data.website || "—"}`,
-    "",
-    "Messaggio:",
-    data.message || "—",
-    "",
-    "Attribuzione campagna:",
-    data.utm && Object.keys(data.utm).length > 0
-      ? Object.entries(data.utm)
-          .map(([key, value]) => `${key}: ${value}`)
-          .join("\n")
-      : "—",
-  ];
-  return lines.join("\n");
-}
-
-function buildHtml(data: LeadRequest): string {
-  const utmRows =
-    data.utm && Object.keys(data.utm).length > 0
-      ? Object.entries(data.utm)
-          .map(
-            ([key, value]) =>
-              `<tr><td style="padding:4px 12px 4px 0;color:#5f6f6a">${escapeHtml(key)}</td><td>${escapeHtml(value)}</td></tr>`,
-          )
-          .join("")
-      : `<tr><td colspan="2" style="color:#5f6f6a">—</td></tr>`;
-
-  return `
-    <div style="font-family:Arial,Helvetica,sans-serif;color:#202827;line-height:1.6;max-width:560px">
-      <h1 style="font-size:18px;color:#152f2b">Nuova richiesta di demo — Benvenia Guide</h1>
-      <table style="border-collapse:collapse;font-size:14px">
-        <tr><td style="padding:4px 12px 4px 0;color:#5f6f6a">Nome</td><td>${escapeHtml(data.name)}</td></tr>
-        <tr><td style="padding:4px 12px 4px 0;color:#5f6f6a">Struttura</td><td>${escapeHtml(data.structureName)}</td></tr>
-        <tr><td style="padding:4px 12px 4px 0;color:#5f6f6a">Email</td><td>${escapeHtml(data.email)}</td></tr>
-        <tr><td style="padding:4px 12px 4px 0;color:#5f6f6a">Tipologia</td><td>${escapeHtml(data.structureType)}</td></tr>
-        <tr><td style="padding:4px 12px 4px 0;color:#5f6f6a">Sito web</td><td>${escapeHtml(data.website || "—")}</td></tr>
-      </table>
-      <h2 style="font-size:14px;color:#152f2b;margin-top:20px">Messaggio</h2>
-      <p style="font-size:14px;white-space:pre-wrap">${escapeHtml(data.message || "—")}</p>
-      <h2 style="font-size:14px;color:#152f2b;margin-top:20px">Attribuzione campagna</h2>
-      <table style="border-collapse:collapse;font-size:14px">${utmRows}</table>
-    </div>
-  `;
-}
 
 function getClientIp(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
@@ -153,7 +93,7 @@ export async function POST(request: Request) {
     if (devDeliveryAllowed) {
       console.info(
         "[lead] Modalità sviluppo: email non inviata. Configurare RESEND_API_KEY, LEAD_NOTIFY_EMAIL_TO e LEAD_EMAIL_FROM per l'invio reale.",
-        { structureType: data.structureType },
+        { structureType: data.structureType, package: data.package },
       );
       return NextResponse.json({ ok: true, delivery: "dev" });
     }
@@ -176,9 +116,7 @@ export async function POST(request: Request) {
       from,
       to: notifyTo,
       replyTo: data.email,
-      subject: `Nuova richiesta demo — ${data.structureName}`,
-      text: buildPlainText(data),
-      html: buildHtml(data),
+      ...buildLeadEmail(data),
     });
 
     if (error) {

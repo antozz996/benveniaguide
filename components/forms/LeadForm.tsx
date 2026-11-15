@@ -1,12 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { CheckCircle2, Loader2, Send, TriangleAlert } from "lucide-react";
 import {
   formatZodErrors,
+  isPackageId,
   leadFormSchema,
+  MULTI_MIN_STRUCTURES,
+  packageOptions,
   structureTypeOptions,
   type LeadFormValues,
+  type PackageId,
 } from "@/lib/validation";
 import {
   ANALYTICS_EVENTS,
@@ -23,6 +28,8 @@ const initialValues: LeadFormValues = {
   structureName: "",
   email: "",
   structureType: "beb",
+  package: "non-so",
+  structuresCount: "",
   website: "",
   message: "",
   privacy: false as unknown as true,
@@ -31,8 +38,30 @@ const initialValues: LeadFormValues = {
 const fieldBase =
   "w-full rounded-2xl border bg-paper px-4 py-3 text-sm text-charcoal placeholder:text-muted/70 transition-colors focus:border-forest/60 focus:outline-none";
 
+const selectBase =
+  "appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22none%22%20stroke%3D%22%23202827%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22m4%206%204%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_1rem_center] bg-no-repeat pr-10";
+
+/**
+ * Legge `?pacchetto=base|completa|multi` (bottoni di /prezzi). Isolato in un
+ * <Suspense> proprio (useSearchParams) per non rimontare il form.
+ */
+function PackageFromUrl({ onPackage }: { onPackage: (value: PackageId) => void }) {
+  const param = useSearchParams().get("pacchetto");
+  useEffect(() => {
+    if (isPackageId(param)) onPackage(param);
+  }, [param, onPackage]);
+  return null;
+}
+
 export function LeadForm() {
   const [values, setValues] = useState<LeadFormValues>(initialValues);
+  const urlPackage = useRef<PackageId | null>(null);
+  const packageTouched = useRef(false);
+  const applyUrlPackage = useCallback((value: PackageId) => {
+    urlPackage.current = value;
+    if (packageTouched.current) return;
+    setValues((current) => ({ ...current, package: value }));
+  }, []);
   const [status, setStatus] = useState<FormStatus>("idle");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [generalError, setGeneralError] = useState<string | null>(null);
@@ -135,7 +164,11 @@ export function LeadForm() {
   };
 
   const reset = () => {
-    setValues(initialValues);
+    setValues({
+      ...initialValues,
+      package: urlPackage.current ?? initialValues.package,
+    });
+    packageTouched.current = false;
     setFieldErrors({});
     setGeneralError(null);
     setStatus("idle");
@@ -156,8 +189,12 @@ export function LeadForm() {
           <CheckCircle2 aria-hidden="true" className="h-6 w-6 text-forest" />
         </span>
         <h2 className="mt-5 font-display text-xl font-semibold text-forest">
-          Richiesta ricevuta, grazie!
+          Richiesta ricevuta
         </h2>
+        <p className="mt-3 text-base leading-relaxed text-charcoal">
+          Grazie! Ti ricontattiamo entro 24 ore con i prossimi passi e le
+          istruzioni di pagamento.
+        </p>
         {delivery === "dev" ? (
           <p className="mt-3 text-sm leading-relaxed text-muted">
             <strong className="font-medium text-charcoal">
@@ -171,8 +208,7 @@ export function LeadForm() {
           </p>
         ) : (
           <p className="mt-3 text-sm leading-relaxed text-muted">
-            Ti ricontatteremo al più presto all&apos;indirizzo indicato per
-            fissare una call breve e senza impegno. Se serve modificare
+            Ti scriviamo all&apos;indirizzo indicato. Se serve modificare
             qualcosa, puoi rispondere direttamente alla nostra email.
           </p>
         )}
@@ -195,6 +231,9 @@ export function LeadForm() {
       aria-label="Modulo di richiesta demo"
       className="rounded-[2rem] border border-line bg-paper p-7 shadow-soft sm:p-9"
     >
+      <Suspense fallback={null}>
+        <PackageFromUrl onPackage={applyUrlPackage} />
+      </Suspense>
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label
@@ -315,7 +354,7 @@ export function LeadForm() {
             }
             className={cn(
               fieldBase,
-              "appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22none%22%20stroke%3D%22%23202827%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22m4%206%204%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_1rem_center] bg-no-repeat pr-10",
+              selectBase,
               fieldErrors.structureType ? "border-copper-700" : "border-line",
             )}
           >
@@ -334,6 +373,85 @@ export function LeadForm() {
             </p>
           ) : null}
         </div>
+
+        <div className={values.package === "multi" ? undefined : "sm:col-span-2"}>
+          <label
+            htmlFor="lead-package"
+            className="mb-1.5 block text-sm font-medium text-charcoal"
+          >
+            Pacchetto
+          </label>
+          <select
+            id="lead-package"
+            name="package"
+            value={values.package}
+            onChange={(event) => {
+              packageTouched.current = true;
+              update("package", event.target.value as PackageId);
+            }}
+            aria-invalid={Boolean(fieldErrors.package)}
+            aria-describedby={
+              fieldErrors.package ? "lead-package-error" : undefined
+            }
+            className={cn(
+              fieldBase,
+              selectBase,
+              fieldErrors.package ? "border-copper-700" : "border-line",
+            )}
+          >
+            {packageOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          {fieldErrors.package ? (
+            <p id="lead-package-error" className="mt-1.5 text-xs text-copper-700">
+              {fieldErrors.package}
+            </p>
+          ) : null}
+        </div>
+
+        {values.package === "multi" ? (
+          <div>
+            <label
+              htmlFor="lead-structures-count"
+              className="mb-1.5 block text-sm font-medium text-charcoal"
+            >
+              Numero di strutture
+            </label>
+            <input
+              id="lead-structures-count"
+              name="structuresCount"
+              type="number"
+              inputMode="numeric"
+              min={MULTI_MIN_STRUCTURES}
+              step={1}
+              required
+              value={values.structuresCount}
+              onChange={(event) => update("structuresCount", event.target.value)}
+              aria-invalid={Boolean(fieldErrors.structuresCount)}
+              aria-describedby={
+                fieldErrors.structuresCount
+                  ? "lead-structures-count-error"
+                  : undefined
+              }
+              className={cn(
+                fieldBase,
+                fieldErrors.structuresCount ? "border-copper-700" : "border-line",
+              )}
+              placeholder={`Da ${MULTI_MIN_STRUCTURES} in su`}
+            />
+            {fieldErrors.structuresCount ? (
+              <p
+                id="lead-structures-count-error"
+                className="mt-1.5 text-xs text-copper-700"
+              >
+                {fieldErrors.structuresCount}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
 
         <div className="sm:col-span-2">
           <label
