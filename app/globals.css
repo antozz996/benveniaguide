@@ -158,3 +158,8 @@
 .text-balance {
   text-wrap: balance;
 }
+
+/* Guide pubbliche /g/[slug]: niente header/footer del sito marketing. */
+body:has([data-guest-guide]) [data-site-chrome] {
+  display: none;
+}

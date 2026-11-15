@@ -1,24 +1,44 @@
 "use client";
 
 import { ArrowLeft, Lightbulb, MapPin, Navigation } from "lucide-react";
-import { PlaceArt } from "@/components/demo/PlaceArt";
-import type { DemoGuideContent, DemoPlace } from "@/data/demo-guide";
+import { PlaceArt } from "@/components/guide/PlaceArt";
+import { GuideAction } from "@/components/guide/parts";
+import type { ReactNode } from "react";
+import type { GuideContent, GuidePlace } from "@/lib/guide/types";
+
+function MaybeWrap({
+  className,
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) {
+  return className ? <div className={className}>{children}</div> : children;
+}
 
 export function PlaceDetail({
   place,
   content,
   onClose,
-  onDemoAction,
+  onAction,
+  className = "absolute inset-0 z-20",
+  contentClassName,
+  hideUnlinkedActions = false,
 }: {
-  place: DemoPlace;
-  content: DemoGuideContent;
+  place: GuidePlace;
+  content: GuideContent;
   onClose: () => void;
-  onDemoAction: (target: string) => void;
+  onAction: (target: string) => void;
+  /** Posizionamento dell'overlay (fullpage: fixed). */
+  className?: string;
+  /** Classi del contenuto scorrevole (fullpage: ingrandimento). */
+  contentClassName?: string;
+  hideUnlinkedActions?: boolean;
 }) {
   const labels = content.explore.detailLabels;
 
   return (
-    <div className="absolute inset-0 z-20 flex flex-col bg-ivory">
+    <div className={`${className} flex flex-col bg-ivory`}>
       <div className="relative">
         <PlaceArt kind={place.art} className="h-44 w-full rounded-none" />
         <button
@@ -32,6 +52,7 @@ export function PlaceDetail({
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 pt-4 pb-6 no-scrollbar">
+        <MaybeWrap className={contentClassName}>
         <p className="text-[10px] font-semibold tracking-[0.18em] text-copper-700 uppercase">
           {place.category}
         </p>
@@ -57,14 +78,16 @@ export function PlaceDetail({
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => onDemoAction("place_directions")}
+        <GuideAction
+          hideWithoutHref={hideUnlinkedActions}
+          href={place.mapsUrl}
+          onClick={() => onAction("place_directions")}
           className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-forest px-4 py-3 text-[13px] font-semibold text-ivory transition-transform duration-200 hover:-translate-y-0.5"
         >
           <Navigation aria-hidden="true" className="h-4 w-4" />
           {content.contacts.actions.directions}
-        </button>
+        </GuideAction>
+        </MaybeWrap>
       </div>
     </div>
   );

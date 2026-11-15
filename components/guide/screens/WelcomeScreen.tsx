@@ -8,15 +8,15 @@ import {
   Phone,
   Wifi,
 } from "lucide-react";
-import { PlaceArt } from "@/components/demo/PlaceArt";
-import { DemoDisclaimer } from "@/components/demo/parts";
+import { PlaceArt } from "@/components/guide/PlaceArt";
+import { Disclaimer } from "@/components/guide/parts";
 import type {
-  DemoGuideContent,
-  DemoQuickLink,
-  DemoScreen,
-} from "@/data/demo-guide";
+  GuideContent,
+  GuideQuickLink,
+  GuideScreen,
+} from "@/lib/guide/types";
 
-const quickLinkIcons: Record<DemoQuickLink["icon"], typeof BedDouble> = {
+const quickLinkIcons: Record<GuideQuickLink["icon"], typeof BedDouble> = {
   bed: BedDouble,
   wifi: Wifi,
   book: BookOpen,
@@ -27,16 +27,19 @@ const quickLinkIcons: Record<DemoQuickLink["icon"], typeof BedDouble> = {
 export function WelcomeScreen({
   content,
   onNavigate,
+  srNotice,
 }: {
-  content: DemoGuideContent;
-  onNavigate: (screen: DemoScreen) => void;
+  content: GuideContent;
+  onNavigate: (screen: GuideScreen) => void;
+  /** Avviso solo per screen reader (la demo lo usa per la modalita' demo). */
+  srNotice?: string;
 }) {
-  const { welcome, structure, ui } = content;
+  const { welcome, structure } = content;
 
   return (
     <div>
       <div className="relative">
-        <PlaceArt kind="lake" className="h-40 w-full" />
+        <PlaceArt kind={welcome.heroArt ?? "lake"} className="h-40 w-full" />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-forest/80 to-transparent px-4 pt-10 pb-3 rounded-b-2xl">
           <p className="text-[10px] font-semibold tracking-[0.2em] text-ivory/80 uppercase">
             {welcome.eyebrow}
@@ -116,8 +119,8 @@ export function WelcomeScreen({
         })}
       </ul>
 
-      <DemoDisclaimer text={structure.disclaimer} />
-      <p className="sr-only">{ui.demoNotice}</p>
+      <Disclaimer text={structure.disclaimer} />
+      {srNotice ? <p className="sr-only">{srNotice}</p> : null}
     </div>
   );
 }

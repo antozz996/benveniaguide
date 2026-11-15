@@ -1,11 +1,13 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { articles } from "@/data/articles";
+// Solo il manifest (leggero): mai data/guides/index.ts, che porta i contenuti.
+import { knownGuidePaths } from "@/data/guides/manifest";
 import { SESSION_COOKIE_NAME } from "@/lib/auth/constants";
 
 /**
  * Con Partial Prerendering il 404 di `notFound()` dentro la route dinamica
  * arriva dopo l'avvio dello streaming (status 200 + noindex).
- * Per gli URL di /risorse/[slug] inesistenti serviamo un vero 404:
+ * Per gli URL di /risorse/[slug] e /g/[slug] inesistenti serviamo un vero 404:
  * il check è su una lista di slug nota, quindi resta veloce.
  */
 
@@ -17,7 +19,8 @@ const reservedSegments = new Set(["opengraph-image"]);
 
 /**
  * Path che non corrisponde a nessuna route: il router risponde con un vero
- * 404 e la UI di app/not-found.tsx. Non creare mai una route con questo path.
+ * 404 e la UI di app/not-found.tsx. Condiviso tra /risorse e /g.
+ * Non creare mai una route con questo path.
  */
 const NOT_FOUND_REWRITE_TARGET = "/risorse-slug-non-trovato";
 
@@ -37,6 +40,18 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  /**
+   * Guide pubbliche: solo i path del manifest (/g/<slug>, /g/<slug>/en).
+   * Slug inesistenti, lingue mancanti, sotto-path e /g danno un vero 404.
+   */
+  if (pathname === "/g" || pathname.startsWith("/g/")) {
+    const normalized = pathname.replace(/\/+$/, "");
+    if (knownGuidePaths.has(normalized)) return NextResponse.next();
+    return NextResponse.rewrite(
+      new URL(NOT_FOUND_REWRITE_TARGET, request.url),
+    );
+  }
+
   const match = /^\/risorse\/([^/]+)\/?$/.exec(pathname);
   if (!match || reservedSegments.has(match[1])) return NextResponse.next();
 
@@ -50,5 +65,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/risorse/:path*", "/area/:path*"],
+  matcher: ["/risorse/:path*", "/area/:path*", "/g", "/g/:path*"],
 };
