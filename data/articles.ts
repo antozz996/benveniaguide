@@ -267,7 +267,7 @@ export const articles: Article[] = [
         label: "Prezzi e preventivi",
         href: "/prezzi",
         description:
-          "Come funziona l'offerta: nessun listino, proposta su misura per la tua struttura.",
+          "Prezzi chiari da €49, una tantum: nessun abbonamento.",
       },
       {
         label: "Richiedi una demo",

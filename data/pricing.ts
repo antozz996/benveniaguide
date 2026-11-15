@@ -1,10 +1,6 @@
 /**
- * Prezzi.
- *
- * IMPORTANTE: non esistono ancora listini commerciali verificati.
- * Non inventare prezzi o pacchetti. Questa configurazione è predisposta
- * per accogliere in futuro pacchetti e fasce da un'unica fonte centrale:
- * basterà compilare l'array `pricingPackages`.
+ * Prezzi — listino a pagamento unico (una tantum), nessun abbonamento.
+ * Fonte unica per la pagina /prezzi. Prezzi IVA da verificare col regime fiscale.
  */
 
 export interface PricingPackage {
@@ -17,63 +13,102 @@ export interface PricingPackage {
   highlighted?: boolean;
 }
 
-/** Vuoto di proposito: i pacchetti verranno configurati dal team commerciale. */
-export const pricingPackages: PricingPackage[] = [];
+export const pricingPackages: PricingPackage[] = [
+  {
+    id: "base",
+    name: "Base",
+    description: "L'essenziale per accogliere i tuoi ospiti senza ripetere le stesse risposte.",
+    price: "€49",
+    period: "una tantum",
+    features: [
+      "Guida in italiano per 1 struttura",
+      "Benvenuto, check-in, Wi-Fi, regole e contatti",
+      "QR code da condividere con gli ospiti",
+      "Online in 48 ore",
+    ],
+  },
+  {
+    id: "completa",
+    name: "Completa",
+    description: "La guida che racconta anche il tuo territorio, in due lingue.",
+    price: "€79",
+    period: "una tantum",
+    highlighted: true,
+    features: [
+      "Tutto il pacchetto Base",
+      "Versione in inglese",
+      "Sezione territorio: cosa vedere e dove mangiare",
+      "Cartello QR pronto da stampare",
+      "1 modifica gratuita entro 12 mesi",
+    ],
+  },
+  {
+    id: "multi",
+    name: "Multi-struttura",
+    description: "Per property manager e host con più immobili.",
+    price: "€59",
+    period: "a struttura, una tantum",
+    features: [
+      "Pacchetto Completo per ogni struttura",
+      "Da 3 strutture in su",
+      "Stile coerente su tutte le guide",
+      "Un unico referente per tutte le strutture",
+    ],
+  },
+];
 
-export const pricingFactors: { title: string; description: string }[] = [
+export const pricingExtras: { label: string; price: string }[] = [
+  { label: "Modifica extra (orari, Wi-Fi, luoghi…)", price: "€15" },
+];
+
+export const pricingLaunchOffer = {
+  title: "Offerta lancio: Completa a €49",
+  description:
+    "Per i primi 10 clienti il pacchetto Completo costa €49 invece di €79. In cambio ti chiediamo una recensione e il permesso di mostrare la tua guida come esempio.",
+};
+
+export const pricingIncluded: { title: string; description: string }[] = [
   {
-    title: "Numero di strutture",
-    description:
-      "Offerta calibrata su una singola struttura o su un portafoglio di immobili gestiti.",
+    title: "Paghi una volta sola",
+    description: "Nessun abbonamento e nessun rinnovo: la guida resta online.",
   },
   {
-    title: "Ricchezza dei contenuti",
-    description:
-      "Dalla guida essenziale con le informazioni di soggiorno fino a un racconto completo del territorio.",
+    title: "La scriviamo noi",
+    description: "Tu compili un breve modulo, al resto pensiamo noi.",
   },
   {
-    title: "Lingue della guida",
-    description:
-      "Una o più lingue, in base agli ospiti che accogli abitualmente.",
+    title: "Pronta in 48 ore",
+    description: "Ricevi il link e il QR code da inviare ai tuoi ospiti.",
   },
   {
-    title: "Personalizzazioni",
-    description:
-      "Immagini, identità visiva e contenuti studiati sui dettagli della tua accoglienza.",
+    title: "Funziona su ogni telefono",
+    description: "Nessuna app da scaricare: l'ospite apre un link.",
   },
   {
-    title: "Supporto e aggiornamenti",
-    description:
-      "Livello di affiancamento nella gestione dei contenuti nel tempo.",
+    title: "Affianca ciò che usi già",
+    description: "Puoi condividere il link su Airbnb, Booking, WhatsApp o nel tuo gestionale.",
   },
 ];
 
 export const pricingSteps: { number: string; title: string; description: string }[] = [
   {
     number: "01",
-    title: "Racconti la tua struttura",
-    description:
-      "Dal modulo di contatto: tipologia, dimensioni e cosa vorresti comunicare agli ospiti.",
+    title: "Scegli il pacchetto",
+    description: "Contattaci indicando il pacchetto e il numero di strutture.",
   },
   {
     number: "02",
-    title: "Capiamo le esigenze",
-    description:
-      "In una call breve analizziamo contenuti, lingue e livello di personalizzazione che ti servono davvero.",
+    title: "Compili il modulo",
+    description: "Ci mandi le informazioni della struttura: check-in, Wi-Fi, regole, consigli.",
   },
   {
     number: "03",
-    title: "Ricevi un'offerta su misura",
-    description:
-      "Prepariamo una proposta chiara e trasparente, costruita sul tuo caso: senza pacchetti preconfezionati.",
+    title: "Scriviamo la guida",
+    description: "Prepariamo testi e sezioni e ti mandiamo l'anteprima da approvare.",
   },
   {
     number: "04",
-    title: "Attiviamo la guida insieme",
-    description:
-      "Approvata l'offerta, partiamo con la raccolta dei contenuti e la preparazione della guida.",
+    title: "Online in 48 ore",
+    description: "Paghi una volta e ricevi link e QR code da condividere con gli ospiti.",
   },
 ];
-
-export const pricingNotice =
-  "Stiamo definendo i pacchetti commerciali di Benvenia Guide. Fino ad allora preferiamo non pubblicare cifre indicative: ogni struttura riceve un'offerta personalizzata e trasparente, costruita sulle sue reali esigenze.";
