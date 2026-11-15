@@ -23,6 +23,31 @@ export const structureTypeOptions: {
   { value: "altro", label: "Altro" },
 ];
 
+/** Pacchetti ordinabili dal form (id allineati a `data/pricing.ts`). */
+export const packageIds = ["base", "completa", "multi", "non-so"] as const;
+
+export type PackageId = (typeof packageIds)[number];
+
+/** Etichette con prezzo: tenere allineate al listino in `data/pricing.ts`. */
+export const packageOptions: { value: PackageId; label: string }[] = [
+  { value: "base", label: "Base — €49" },
+  { value: "completa", label: "Completa — €79 (offerta lancio €49)" },
+  { value: "multi", label: "Multi-struttura — €59 a struttura" },
+  { value: "non-so", label: "Non so ancora" },
+];
+
+export function isPackageId(value: unknown): value is PackageId {
+  return (packageIds as readonly unknown[]).includes(value);
+}
+
+export function packageLabel(value: PackageId): string {
+  return packageOptions.find((option) => option.value === value)?.label ?? value;
+}
+
+/** Il pacchetto Multi-struttura parte da 3 strutture (vedi listino). */
+export const MULTI_MIN_STRUCTURES = 3;
+export const MULTI_MAX_STRUCTURES = 999;
+
 const nameField = z
   .string()
   .trim()
@@ -48,14 +73,26 @@ const messageField = z
   .trim()
   .max(1200, "Massimo 1200 caratteri.");
 
-/** Schema dei campi visibili nel form (validazione client e server). */
-export const leadFormSchema = z.object({
+const packageField = z
+  .enum(packageIds, { message: "Seleziona il pacchetto." })
+  .default("non-so");
+
+/** Numero di strutture come testo del campo; obbligatorio solo per Multi. */
+const structuresCountField = z
+  .string()
+  .trim()
+  .max(4, "Inserisci un numero valido.")
+  .default("");
+
+const leadFormFields = z.object({
   name: nameField,
   structureName: structureField,
   email: emailField,
   structureType: z.enum(structureTypeIds, {
     message: "Seleziona la tipologia della struttura.",
   }),
+  package: packageField,
+  structuresCount: structuresCountField,
   website: websiteField,
   message: messageField,
   privacy: z.literal(true, {
@@ -63,14 +100,40 @@ export const leadFormSchema = z.object({
   }),
 });
 
+function checkStructuresCount(
+  data: { package: PackageId; structuresCount: string },
+  ctx: z.RefinementCtx,
+) {
+  if (data.package !== "multi") return;
+  const count = /^\d+$/.test(data.structuresCount)
+    ? Number(data.structuresCount)
+    : NaN;
+  if (
+    !Number.isInteger(count) ||
+    count < MULTI_MIN_STRUCTURES ||
+    count > MULTI_MAX_STRUCTURES
+  ) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["structuresCount"],
+      message: `Il pacchetto Multi-struttura parte da ${MULTI_MIN_STRUCTURES} strutture: indica quante sono.`,
+    });
+  }
+}
+
+/** Schema dei campi visibili nel form (validazione client e server). */
+export const leadFormSchema = leadFormFields.superRefine(checkStructuresCount);
+
 export type LeadFormValues = z.infer<typeof leadFormSchema>;
 
 /** Schema completo ricevuto dall'API, con metadati antispam e UTM. */
-export const leadRequestSchema = leadFormSchema.extend({
-  honeypot: z.string().max(500).optional().default(""),
-  elapsedMs: z.number().int().min(0).max(86_400_000).optional().default(0),
-  utm: z.record(z.string(), z.string().max(200)).optional(),
-});
+export const leadRequestSchema = leadFormFields
+  .extend({
+    honeypot: z.string().max(500).optional().default(""),
+    elapsedMs: z.number().int().min(0).max(86_400_000).optional().default(0),
+    utm: z.record(z.string(), z.string().max(200)).optional(),
+  })
+  .superRefine(checkStructuresCount);
 
 export type LeadRequest = z.infer<typeof leadRequestSchema>;
 

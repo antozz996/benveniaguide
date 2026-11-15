@@ -111,7 +111,7 @@ export default function PrezziPage() {
                     ))}
                   </ul>
                   <CtaLink
-                    href="/contatti"
+                    href={`/contatti?pacchetto=${pack.id}`}
                     variant={pack.highlighted ? "copper" : undefined}
                     className="mt-6 self-start"
                     event={ANALYTICS_EVENTS.ctaClick}
