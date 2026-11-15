@@ -40,6 +40,13 @@ const nextConfig: NextConfig = {
         headers: securityHeaders,
       },
       {
+        // Immagini dei post Instagram (HOS-33): servono solo come URL pubblico
+        // per la pubblicazione, non vanno indicizzate. Niente Disallow in
+        // robots.txt, altrimenti il crawler di Meta potrebbe non scaricarle.
+        source: "/social/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
         // Le pagine di contenuto non contengono dati sensibili: cache CDN generosa.
         source: "/(privacy|cookie-policy|prezzi|soluzioni|funzionalita|come-funziona)(.*)",
         headers: [
