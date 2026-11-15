@@ -64,6 +64,10 @@ export default function CookiePolicyPage() {
                   browser (localStorage e sessionStorage). Non usiamo cookie
                   di profilazione.
                 </p>
+                <p className={paragraph}>
+                  Le guide ospiti (/g/) non usano strumenti di analytics né
+                  cookie di profilazione; usano solo storage tecnico.
+                </p>
                 <div className="mt-5 overflow-x-auto rounded-2xl border border-line bg-paper">
                   <table className="w-full border-collapse">
                     <thead>

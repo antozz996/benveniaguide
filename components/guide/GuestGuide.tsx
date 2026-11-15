@@ -16,7 +16,8 @@ interface GuestGuideProps {
 
 /**
  * Guida reale per l'ospite, a tutto schermo sul telefono.
- * Nessun evento analytics (follow-up: evento dedicato in lib/analytics).
+ * Nessun analytics sulle guide (HOS-7): solo storage tecnico, banner cookie
+ * nascosto. Eventuali metriche vanno rivalutate con Compliance.
  */
 export function GuestGuide({
   slug,
@@ -90,6 +91,20 @@ export function GuestGuide({
     </span>
   ) : null;
 
+  const legalFooter = (
+    <footer
+      data-guide-legal
+      className="flex justify-center gap-4 px-4 pb-2 text-[11px] text-muted"
+    >
+      <Link href="/privacy" className="underline-offset-2 hover:underline">
+        {lang === "en" ? "Privacy policy" : "Privacy"}
+      </Link>
+      <Link href="/cookie-policy" className="underline-offset-2 hover:underline">
+        Cookie policy
+      </Link>
+    </footer>
+  );
+
   return (
     <GuideShell
       variant="fullpage"
@@ -101,6 +116,7 @@ export function GuestGuide({
       onAction={(target) => void handleAction(target)}
       hideUnlinkedActions
       toast={toast}
+      footer={legalFooter}
     />
   );
 }

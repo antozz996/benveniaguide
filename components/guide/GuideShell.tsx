@@ -68,6 +68,8 @@ export interface GuideShellProps {
   hideUnlinkedActions?: boolean;
   /** Toast controllato dal genitore (null = nascosto). */
   toast: string | null;
+  /** Footer in coda al pannello (link informative nelle guide reali). */
+  footer?: ReactNode;
 }
 
 export function GuideShell({
@@ -88,6 +90,7 @@ export function GuideShell({
   srNotice,
   hideUnlinkedActions = false,
   toast,
+  footer,
 }: GuideShellProps) {
   const [internalScreen, setInternalScreen] = useState<GuideScreen>("welcome");
   const [internalPlace, setInternalPlace] = useState<GuidePlace | null>(null);
@@ -245,6 +248,7 @@ export function GuideShell({
       >
         {renderScreen()}
       </div>
+      {footer}
     </div>
   );
 

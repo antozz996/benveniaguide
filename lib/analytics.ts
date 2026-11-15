@@ -101,11 +101,20 @@ export function hasAnalyticsConsent(): boolean {
   return readConsent()?.analytics === true;
 }
 
+/**
+ * Guide ospiti (/g/...): nessun analytics, a prescindere dal consenso.
+ * Condizione per tenere nascosto il banner cookie sulle guide (HOS-6/HOS-7).
+ */
+export function isGuidePath(pathname: string | null | undefined): boolean {
+  return typeof pathname === "string" && /^\/g(\/|$)/.test(pathname);
+}
+
 export function trackEvent(
   name: AnalyticsEventName,
   params: Record<string, unknown> = {},
 ): void {
   if (typeof window === "undefined") return;
+  if (isGuidePath(window.location.pathname)) return;
   if (!hasAnalyticsConsent()) return;
   if (typeof window.gtag === "function") {
     window.gtag("event", name, params);

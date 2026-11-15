@@ -147,6 +147,67 @@ test.describe("Guide pubbliche (/g/[slug])", () => {
   });
 });
 
+test.describe("Guide pubbliche con consenso analytics gia' dato", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test.beforeEach(async ({ page }) => {
+    // Es. host che ha accettato gli analytics sul sito marketing.
+    await page.addInitScript(() => {
+      window.localStorage.setItem(
+        "benvenia:consent:v1",
+        JSON.stringify({
+          version: 1,
+          necessary: true,
+          analytics: true,
+          decidedAt: "2026-01-01T00:00:00.000Z",
+        }),
+      );
+    });
+  });
+
+  test("nessuna richiesta GA4 sulla guida (it ed en)", async ({ page }) => {
+    const tracked: string[] = [];
+    page.on("request", (req) => {
+      if (/googletagmanager\.com|google-analytics\.com/.test(req.url())) {
+        tracked.push(req.url());
+      }
+    });
+
+    for (const path of [`/g/${SLUG}`, `/g/${SLUG}/en`]) {
+      await page.goto(path);
+      await expect(page.getByRole("tablist").first()).toBeVisible();
+      await page.waitForLoadState("networkidle");
+    }
+    await page.getByRole("tab", { name: "Explore" }).click();
+
+    expect(tracked).toEqual([]);
+    expect(await page.locator("#ga4-src, #ga4-init").count()).toBe(0);
+    expect(
+      await page.evaluate(
+        () =>
+          ((window as unknown as { __benveniaAnalyticsQueue?: unknown[] })
+            .__benveniaAnalyticsQueue ?? []).length,
+      ),
+    ).toBe(0);
+  });
+
+  test("la guida linka privacy e cookie policy", async ({ page }) => {
+    await page.goto(`/g/${SLUG}`);
+    const footer = page.locator("[data-guide-legal]:visible");
+    await expect(footer.getByRole("link", { name: "Privacy" })).toHaveAttribute(
+      "href",
+      "/privacy",
+    );
+    const cookie = footer.getByRole("link", { name: "Cookie policy" });
+    await expect(cookie).toHaveAttribute("href", "/cookie-policy");
+    await cookie.click();
+    await expect(page).toHaveURL(/\/cookie-policy$/);
+    await expect(
+      page.getByText("Le guide ospiti (/g/) non usano strumenti di analytics"),
+    ).toBeVisible();
+  });
+});
+
 test.describe("Guide pubbliche senza consenso registrato", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
