@@ -46,10 +46,12 @@ export function proxy(request: NextRequest) {
    */
   if (pathname === "/g" || pathname.startsWith("/g/")) {
     const normalized = pathname.replace(/\/+$/, "");
-    if (knownGuidePaths.has(normalized)) return NextResponse.next();
-    return NextResponse.rewrite(
-      new URL(NOT_FOUND_REWRITE_TARGET, request.url),
-    );
+    const response = knownGuidePaths.has(normalized)
+      ? NextResponse.next()
+      : NextResponse.rewrite(new URL(NOT_FOUND_REWRITE_TARGET, request.url));
+    // Secondo livello oltre al meta robots: vale anche per risposte non HTML.
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+    return response;
   }
 
   const match = /^\/risorse\/([^/]+)\/?$/.exec(pathname);

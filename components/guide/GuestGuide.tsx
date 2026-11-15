@@ -72,7 +72,8 @@ export function GuestGuide({
             scroll={false}
             aria-current={isCurrent ? "page" : undefined}
             className={cn(
-              "rounded-full px-3 py-1 text-xs font-semibold uppercase transition-colors",
+              // Area di tocco >= 44px sul telefono reale.
+              "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full px-3 text-sm font-semibold uppercase transition-colors",
               isCurrent ? "bg-forest text-ivory" : "text-muted hover:text-forest",
             )}
           >
@@ -84,7 +85,7 @@ export function GuestGuide({
   ) : null;
 
   const badge = isSample ? (
-    <span className="rounded-full bg-copper/15 px-2 py-0.5 text-[10px] font-bold tracking-[0.14em] text-copper-700 uppercase">
+    <span className="rounded-full bg-copper/15 px-2 py-0.5 text-[11px] font-bold tracking-[0.14em] text-copper-700 uppercase">
       {lang === "en" ? "Sample" : "Esempio"}
     </span>
   ) : null;

@@ -67,6 +67,30 @@ test.describe("Demo interattiva (/demo)", () => {
     await expect(dialog).toBeHidden();
   });
 
+  test("lo schermo intero conserva sezione e luogo aperto", async ({ page }) => {
+    await page.getByRole("tab", { name: "Esplora" }).click();
+    await page.getByRole("button", { name: /Lungolago di Esempio/ }).click();
+    await page.getByRole("button", { name: "Apri a schermo intero" }).click();
+
+    const dialog = page.getByRole("dialog", {
+      name: "Guest Guide dimostrativa a schermo intero",
+    });
+    await expect(
+      dialog.getByRole("heading", { name: "Lungolago di Esempio" }),
+    ).toBeVisible();
+    await expect(
+      dialog.getByRole("tab", { name: "Esplora" }),
+    ).toHaveAttribute("aria-selected", "true");
+
+    await dialog.getByRole("button", { name: "Chiudi", exact: true }).click();
+    await dialog.getByRole("tab", { name: "Soggiorno" }).click();
+    await dialog.getByRole("button", { name: "Chiudi la demo" }).click();
+    await expect(page.getByRole("tab", { name: "Soggiorno" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+  });
+
   test("il disclaimer chiarisce che i contenuti sono fittizi", async ({
     page,
   }) => {

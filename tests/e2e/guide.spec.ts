@@ -73,7 +73,7 @@ test.describe("Guide pubbliche (/g/[slug])", () => {
     expect(robots).toContain("noindex");
   });
 
-  test("il bottone copia Wi-Fi mostra la conferma", async ({
+  test("il bottone copia Wi-Fi copia la password e lo conferma", async ({
     page,
     context,
   }) => {
@@ -81,7 +81,43 @@ test.describe("Guide pubbliche (/g/[slug])", () => {
     await page.goto(`/g/${SLUG}`);
     await page.getByRole("tab", { name: "Soggiorno" }).click();
     await page.getByRole("button", { name: "Copia password" }).click();
-    await expect(page.getByRole("status")).toBeVisible();
+    await expect(page.getByRole("status")).toHaveText(
+      "Password copiata negli appunti.",
+    );
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      "esempio-2026",
+    );
+  });
+
+  test("la scheda luogo e' un dialog accessibile da tastiera", async ({
+    page,
+  }) => {
+    await page.goto(`/g/${SLUG}`);
+    await page.getByRole("tab", { name: "Esplora" }).click();
+    const card = page.getByRole("button", { name: /Piazza di Esempio/ });
+    await card.click();
+
+    const dialog = page.getByRole("dialog", { name: "Piazza di Esempio" });
+    await expect(dialog).toBeVisible();
+    const back = dialog.getByRole("button", { name: "Chiudi" });
+    await expect(back).toBeFocused();
+    const box = await back.boundingBox();
+    expect(box?.width ?? 0).toBeGreaterThanOrEqual(44);
+    // Il contenuto sotto l'overlay non e' raggiungibile.
+    await expect(page.locator("#guide-panel")).toHaveAttribute("inert", "");
+
+    await page.keyboard.press("Escape");
+    await expect(dialog).toHaveCount(0);
+    await expect(card).toBeFocused();
+  });
+
+  test("le risposte /g/* hanno l'header X-Robots-Tag noindex", async ({
+    request,
+  }) => {
+    const ok = await request.get(`/g/${SLUG}`);
+    expect(ok.headers()["x-robots-tag"]).toContain("noindex");
+    const missing = await request.get("/g/slug-che-non-esiste");
+    expect(missing.headers()["x-robots-tag"]).toContain("noindex");
   });
 
   test("i contatti usano link reali", async ({ page }) => {
@@ -97,9 +133,35 @@ test.describe("Guide pubbliche (/g/[slug])", () => {
     await expect(page.getByText("Chiama l'host")).toHaveCount(0);
   });
 
+  test("robots.txt non blocca le guide (il noindex deve essere letto)", async ({
+    request,
+  }) => {
+    const response = await request.get("/robots.txt");
+    expect(await response.text()).not.toContain("Disallow: /g/");
+  });
+
   test("la sitemap non include le guide", async ({ request }) => {
     const response = await request.get("/sitemap.xml");
     expect(response.ok()).toBe(true);
     expect(await response.text()).not.toContain("/g/");
+  });
+});
+
+test.describe("Guide pubbliche senza consenso registrato", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test("il banner cookie non copre la tab bar della guida", async ({
+    page,
+  }) => {
+    await page.goto(`/g/${SLUG}`);
+    // Click reale (senza force): fallirebbe se un overlay coprisse la tab.
+    await page.getByRole("tab", { name: "Soggiorno" }).click();
+    await expect(page.getByRole("tab", { name: "Soggiorno" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    // Dopo l'idratazione il banner e' montato ma nascosto sulle guide.
+    await expect(page.locator("[data-cookie-consent]")).toHaveCount(1);
+    await expect(page.locator("[data-cookie-consent]")).toBeHidden();
   });
 });

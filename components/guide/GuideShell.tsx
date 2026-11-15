@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, type ReactNode } from "react";
+import { useCallback, useRef, useState, type ReactNode } from "react";
 import { BedDouble, House, MapPin, Phone } from "lucide-react";
 import { PlaceDetail } from "@/components/guide/PlaceDetail";
 import { WelcomeScreen } from "@/components/guide/screens/WelcomeScreen";
@@ -23,6 +23,13 @@ const tabIcons: Record<GuideScreen, typeof House> = {
   contacts: Phone,
 };
 
+/**
+ * Le schermate usano px pensati per il mock (~300px): sul telefono reale
+ * (360-448px) lo zoom riporta circa la stessa larghezza utile con testo piu'
+ * grande (10px -> 12.5px, 12px -> 15px).
+ */
+const PAGE_ZOOM = "[zoom:1.25]";
+
 export type GuideShellEvent = (
   action: string,
   params: Record<string, string | undefined>,
@@ -41,8 +48,16 @@ export interface GuideShellProps {
   statusBar?: ReactNode;
   /** Azioni senza link reale (copia Wi-Fi, chiama, indicazioni...). */
   onAction: (target: string) => void;
+  /**
+   * Sezione attiva controllata dal genitore (la demo la conserva tra il
+   * telefono compatto e quello a schermo intero). Senza, stato interno.
+   */
+  screen?: GuideScreen;
   /** Notifica il cambio di sezione (la demo aggiorna la label del PhoneFrame). */
   onScreenChange?: (screen: GuideScreen) => void;
+  /** Luogo aperto controllato dal genitore (vedi `screen`). */
+  place?: GuidePlace | null;
+  onPlaceChange?: (place: GuidePlace | null) => void;
   /** Eventi di interazione (analytics, solo demo). */
   onEvent?: GuideShellEvent;
   /** Prefisso degli id di tab e pannello. */
@@ -63,7 +78,10 @@ export function GuideShell({
   badge,
   statusBar,
   onAction,
+  screen: controlledScreen,
   onScreenChange,
+  place: controlledPlace,
+  onPlaceChange,
   onEvent,
   idPrefix = "demo",
   actionLabelSuffix,
@@ -71,29 +89,55 @@ export function GuideShell({
   hideUnlinkedActions = false,
   toast,
 }: GuideShellProps) {
-  const [screen, setScreen] = useState<GuideScreen>("welcome");
-  const [place, setPlace] = useState<GuidePlace | null>(null);
+  const [internalScreen, setInternalScreen] = useState<GuideScreen>("welcome");
+  const [internalPlace, setInternalPlace] = useState<GuidePlace | null>(null);
+  const screen = controlledScreen ?? internalScreen;
+  const place =
+    controlledPlace !== undefined ? controlledPlace : internalPlace;
   const isPage = variant === "fullpage";
   const panelId = `${idPrefix}-panel`;
+  /** Card che ha aperto la scheda luogo: riceve di nuovo il focus alla chiusura. */
+  const placeTrigger = useRef<HTMLElement | null>(null);
+
+  const setPlace = useCallback(
+    (next: GuidePlace | null) => {
+      setInternalPlace(next);
+      onPlaceChange?.(next);
+    },
+    [onPlaceChange],
+  );
 
   const handleNavigate = useCallback(
     (next: GuideScreen) => {
-      setScreen(next);
+      setInternalScreen(next);
+      placeTrigger.current = null;
       setPlace(null);
       onScreenChange?.(next);
       if (isPage) window.scrollTo({ top: 0 });
       onEvent?.("navigate", { screen: next, language: lang });
     },
-    [isPage, lang, onEvent, onScreenChange],
+    [isPage, lang, onEvent, onScreenChange, setPlace],
   );
 
   const handleOpenPlace = useCallback(
     (selected: GuidePlace) => {
+      placeTrigger.current =
+        document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
       setPlace(selected);
       onEvent?.("open_place", { place: selected.id });
     },
-    [onEvent],
+    [onEvent, setPlace],
   );
+
+  const handleClosePlace = useCallback(() => {
+    setPlace(null);
+    const trigger = placeTrigger.current;
+    placeTrigger.current = null;
+    // Dopo il render senza overlay (e senza inert) il focus torna alla card.
+    if (trigger) window.requestAnimationFrame(() => trigger.focus());
+  }, [setPlace]);
 
   const handleInteraction = useCallback(
     (action: string, detail?: string) => {
@@ -118,6 +162,7 @@ export function GuideShell({
             content={content}
             onAction={onAction}
             actionLabelSuffix={actionLabelSuffix}
+            largeTargets={isPage}
           />
         );
       case "explore":
@@ -141,6 +186,7 @@ export function GuideShell({
 
   const header = (
     <div
+      inert={isPage && place !== null}
       className={cn(
         "flex items-center justify-between gap-2 border-b border-line/70",
         isPage
@@ -180,6 +226,7 @@ export function GuideShell({
       id={panelId}
       role="tabpanel"
       aria-label={content.ui.tabs[screen]}
+      inert={isPage && place !== null}
       className={
         isPage
           ? "pb-[calc(5.5rem+env(safe-area-inset-bottom))]"
@@ -191,8 +238,9 @@ export function GuideShell({
         className={cn(
           "animate-screen-in px-4 pt-4 pb-6",
           // Le schermate usano px pensati per il mock: sul telefono reale
-          // ingrandiamo leggermente il contenuto (follow-up: scala responsive).
-          isPage && "[zoom:1.125]",
+          // ingrandiamo il contenuto (follow-up: scala tipografica
+          // responsive al posto dello zoom).
+          isPage && PAGE_ZOOM,
         )}
       >
         {renderScreen()}
@@ -204,14 +252,15 @@ export function GuideShell({
     <PlaceDetail
       place={place}
       content={content}
-      onClose={() => setPlace(null)}
+      onClose={handleClosePlace}
       onAction={onAction}
       hideUnlinkedActions={hideUnlinkedActions}
+      modal={isPage}
       {...(isPage
         ? {
             className:
               "fixed inset-x-0 top-0 bottom-[calc(4.25rem+env(safe-area-inset-bottom))] z-40 mx-auto w-full max-w-md",
-            contentClassName: "[zoom:1.125]",
+            contentClassName: PAGE_ZOOM,
           }
         : {})}
     />

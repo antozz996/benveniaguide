@@ -6,6 +6,7 @@ import { BatteryMedium, Maximize2, Signal, Wifi, X } from "lucide-react";
 import { PhoneFrame } from "@/components/demo/PhoneFrame";
 import { GuideShell, type GuideShellEvent } from "@/components/guide/GuideShell";
 import { demoGuide, type DemoLang, type DemoScreen } from "@/data/demo-guide";
+import type { GuidePlace } from "@/lib/guide/types";
 import {
   ANALYTICS_EVENTS,
   trackEvent,
@@ -24,7 +25,11 @@ interface GuideDemoProps {
  */
 export function GuideDemo({ variant = "compact" }: GuideDemoProps) {
   const [lang, setLang] = useState<DemoLang>("it");
+  // Sezione e luogo aperto vivono qui (non in GuideShell): il telefono
+  // compatto e quello a schermo intero sono due istanze diverse e devono
+  // mostrare lo stesso stato.
   const [screen, setScreen] = useState<DemoScreen>("welcome");
+  const [place, setPlace] = useState<GuidePlace | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [fullscreen, setFullscreen] = useState(false);
   const toastTimer = useRef<number | null>(null);
@@ -154,7 +159,10 @@ export function GuideDemo({ variant = "compact" }: GuideDemoProps) {
         badge={badge}
         languageSwitch={languageSwitch}
         onAction={handleDemoAction}
+        screen={screen}
         onScreenChange={setScreen}
+        place={place}
+        onPlaceChange={setPlace}
         onEvent={handleEvent}
         idPrefix="demo"
         actionLabelSuffix=" (demo)"

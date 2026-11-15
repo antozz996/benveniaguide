@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { GuideCard, ScreenHeading } from "@/components/guide/parts";
 import type { GuideContent, ServiceIcon } from "@/lib/guide/types";
+import { cn } from "@/lib/utils";
 
 const serviceIcons: Record<ServiceIcon, typeof Coffee> = {
   coffee: Coffee,
@@ -26,11 +27,14 @@ export function StayScreen({
   content,
   onAction,
   actionLabelSuffix = "",
+  largeTargets = false,
 }: {
   content: GuideContent;
   onAction: (target: string) => void;
   /** Suffisso dell'aria-label del bottone copia (la demo usa " (demo)"). */
   actionLabelSuffix?: string;
+  /** Telefono reale: bottone copia con area di tocco >= 44px (con lo zoom). */
+  largeTargets?: boolean;
 }) {
   const { stay, ui } = content;
 
@@ -89,10 +93,16 @@ export function StayScreen({
               <button
                 type="button"
                 onClick={() => onAction("wifi_copy")}
-                className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-ivory/10 text-ivory/80 transition-colors hover:bg-ivory/20 hover:text-ivory"
+                className={cn(
+                  "inline-flex shrink-0 items-center justify-center rounded-lg bg-ivory/10 text-ivory/80 transition-colors hover:bg-ivory/20 hover:text-ivory",
+                  largeTargets ? "h-9 w-9" : "h-6 w-6",
+                )}
                 aria-label={`${ui.copyLabel ?? "Copia"} ${stay.wifi.passwordLabel.toLowerCase()}${actionLabelSuffix}`}
               >
-                <Copy aria-hidden="true" className="h-3 w-3" />
+                <Copy
+                  aria-hidden="true"
+                  className={largeTargets ? "h-3.5 w-3.5" : "h-3 w-3"}
+                />
               </button>
             </dd>
           </div>

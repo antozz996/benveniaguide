@@ -1,9 +1,9 @@
 "use client";
 
+import { useEffect, useId, useRef, type ReactNode } from "react";
 import { ArrowLeft, Lightbulb, MapPin, Navigation } from "lucide-react";
 import { PlaceArt } from "@/components/guide/PlaceArt";
 import { GuideAction } from "@/components/guide/parts";
-import type { ReactNode } from "react";
 import type { GuideContent, GuidePlace } from "@/lib/guide/types";
 
 function MaybeWrap({
@@ -24,6 +24,7 @@ export function PlaceDetail({
   className = "absolute inset-0 z-20",
   contentClassName,
   hideUnlinkedActions = false,
+  modal = false,
 }: {
   place: GuidePlace;
   content: GuideContent;
@@ -34,20 +35,43 @@ export function PlaceDetail({
   /** Classi del contenuto scorrevole (fullpage: ingrandimento). */
   contentClassName?: string;
   hideUnlinkedActions?: boolean;
+  /**
+   * Telefono reale: overlay come dialog modale (focus sul bottone indietro,
+   * chiusura con Escape, bottone indietro da 44px).
+   */
+  modal?: boolean;
 }) {
   const labels = content.explore.detailLabels;
+  const titleId = useId();
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!modal) return;
+    closeRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [modal, onClose]);
 
   return (
-    <div className={`${className} flex flex-col bg-ivory`}>
+    <div
+      className={`${className} flex flex-col bg-ivory`}
+      {...(modal
+        ? { role: "dialog", "aria-modal": true, "aria-labelledby": titleId }
+        : {})}
+    >
       <div className="relative">
         <PlaceArt kind={place.art} className="h-44 w-full rounded-none" />
         <button
+          ref={closeRef}
           type="button"
           onClick={onClose}
           aria-label={labels.close}
-          className="absolute top-3 left-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-ivory/90 text-forest shadow-soft transition-colors hover:bg-paper"
+          className={`absolute top-3 left-3 inline-flex ${modal ? "h-11 w-11" : "h-9 w-9"} items-center justify-center rounded-full bg-ivory/90 text-forest shadow-soft transition-colors hover:bg-paper`}
         >
-          <ArrowLeft aria-hidden="true" className="h-4 w-4" />
+          <ArrowLeft aria-hidden="true" className={modal ? "h-5 w-5" : "h-4 w-4"} />
         </button>
       </div>
 
@@ -56,7 +80,7 @@ export function PlaceDetail({
         <p className="text-[10px] font-semibold tracking-[0.18em] text-copper-700 uppercase">
           {place.category}
         </p>
-        <h3 className="mt-1.5 font-display text-xl leading-snug font-semibold text-forest">
+        <h3 id={titleId} className="mt-1.5 font-display text-xl leading-snug font-semibold text-forest">
           {place.name}
         </h3>
         <p className="mt-2 flex items-center gap-1.5 text-[11px] font-medium text-muted">
