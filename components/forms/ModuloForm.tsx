@@ -34,11 +34,12 @@ type DeliveryMode = "email" | "dev" | null;
 type FormState = {
   [K in keyof ModuloFormData]: K extends "places"
     ? ModuloPlace[]
-    : K extends "privacy"
+    : K extends ConsentKey
       ? boolean
       : string;
 };
-type TextKey = Exclude<keyof FormState, "places" | "privacy">;
+type ConsentKey = "privacy" | "immediateStart" | "waiverAck";
+type TextKey = Exclude<keyof FormState, "places" | ConsentKey>;
 
 const initialValues: FormState = {
   package: "",
@@ -78,6 +79,8 @@ const initialValues: FormState = {
   slug: "",
   notes: "",
   privacy: false,
+  immediateStart: false,
+  waiverAck: false,
 };
 
 const fieldBase =
@@ -793,14 +796,15 @@ export function ModuloForm() {
         <div className="mt-6 rounded-2xl bg-ivory p-4 text-xs leading-relaxed text-muted sm:p-5">
           <p className="font-medium text-charcoal">Come usiamo questi dati</p>
           <p className="mt-1.5">
-            Titolare del trattamento è Benvenia Guide (info@benveniaguide.it).
-            Usiamo i dati del modulo solo per scrivere la tua guida e per
-            emettere la ricevuta. Li riceviamo via email tramite il servizio
-            Resend e non li salviamo nel database del sito. I dati di contatto
-            e del soggiorno compaiono nella guida per i tuoi ospiti; quelli per
-            la ricevuta no. Non li cediamo a terzi e puoi chiederne in ogni
-            momento la modifica o la cancellazione, salvo quanto serve per gli
-            obblighi fiscali. Dettagli nell&apos;{" "}
+            Titolare del trattamento è Antonio Avella, che opera con il marchio
+            Benvenia Guide (info@benveniaguide.it). Usiamo i dati del modulo
+            solo per scrivere la tua guida e per emettere la ricevuta. Li
+            riceviamo via email tramite il servizio Resend e non li salviamo
+            nel database del sito. I dati di contatto e del soggiorno compaiono
+            nella guida per i tuoi ospiti; quelli per la ricevuta no. Non li
+            cediamo a terzi e puoi chiederne in ogni momento la modifica o la
+            cancellazione, salvo quanto serve per gli obblighi fiscali.
+            Dettagli nell&apos;{" "}
             <a
               href="/privacy"
               className="text-forest underline underline-offset-2"
@@ -809,9 +813,27 @@ export function ModuloForm() {
             </a>
             .
           </p>
+          <p className="mt-2">
+            Inviando il modulo concludi l&apos;ordine alle{" "}
+            <a
+              href="/condizioni"
+              className="text-forest underline underline-offset-2"
+            >
+              Condizioni del servizio
+            </a>
+            . Paghi solo dopo aver approvato l&apos;anteprima. Se sei un
+            consumatore, puoi recedere come spiegato nella pagina{" "}
+            <a
+              href="/recesso"
+              className="text-forest underline underline-offset-2"
+            >
+              Recesso
+            </a>
+            .
+          </p>
         </div>
 
-        <div className="mt-5">
+        <div className="mt-5 space-y-2">
           <label className="flex min-h-11 items-start gap-3">
             <input
               type="checkbox"
@@ -830,11 +852,53 @@ export function ModuloForm() {
               className="mt-0.5 h-5 w-5 shrink-0 rounded accent-forest"
             />
             <span className="text-sm leading-relaxed text-muted">
-              Ho letto come vengono usati i dati e acconsento al trattamento
-              per la creazione della guida e l&apos;emissione della ricevuta.
+              Ho letto e accetto le Condizioni del servizio e ho letto
+              l&apos;informativa privacy.
             </span>
           </label>
           {errorText("privacy", "modulo-privacy-error")}
+
+          <p className="pt-2 text-xs leading-relaxed text-muted">
+            Le due caselle che seguono servono se sei un consumatore. Se non le
+            spunti scriviamo comunque la guida, ma la pubblichiamo solo dopo 14
+            giorni dall&apos;ordine.
+          </p>
+          <label className="flex min-h-11 items-start gap-3">
+            <input
+              type="checkbox"
+              name="immediateStart"
+              checked={values.immediateStart}
+              onChange={(event) =>
+                setValues((current) => ({
+                  ...current,
+                  immediateStart: event.target.checked,
+                }))
+              }
+              className="mt-0.5 h-5 w-5 shrink-0 rounded accent-forest"
+            />
+            <span className="text-sm leading-relaxed text-muted">
+              Chiedo che il lavoro sulla guida inizi subito, prima che siano
+              trascorsi i 14 giorni per il recesso.
+            </span>
+          </label>
+          <label className="flex min-h-11 items-start gap-3">
+            <input
+              type="checkbox"
+              name="waiverAck"
+              checked={values.waiverAck}
+              onChange={(event) =>
+                setValues((current) => ({
+                  ...current,
+                  waiverAck: event.target.checked,
+                }))
+              }
+              className="mt-0.5 h-5 w-5 shrink-0 rounded accent-forest"
+            />
+            <span className="text-sm leading-relaxed text-muted">
+              So che, una volta pubblicata la guida, il servizio è completamente
+              eseguito e perdo il diritto di recesso.
+            </span>
+          </label>
         </div>
       </section>
 

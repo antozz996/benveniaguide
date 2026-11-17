@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ArrowRight, BadgeCheck, Sparkles } from "lucide-react";
 import { CTASection } from "@/components/CTASection";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -131,6 +132,23 @@ export default function PrezziPage() {
                 {extra.label}: <strong className="text-forest">{extra.price}</strong>
               </li>
             ))}
+            <li>
+              Tempi, correzioni, pagamento e recesso sono spiegati nelle{" "}
+              <Link
+                href="/condizioni"
+                className="font-medium text-forest underline underline-offset-2"
+              >
+                Condizioni del servizio
+              </Link>
+              . Se sei un consumatore puoi anche{" "}
+              <Link
+                href="/recesso"
+                className="font-medium text-forest underline underline-offset-2"
+              >
+                recedere dal contratto
+              </Link>
+              .
+            </li>
           </ul>
         </Container>
       </section>
@@ -140,7 +158,7 @@ export default function PrezziPage() {
           <SectionHeading
             eyebrow="Come funziona"
             title="Quattro passi, nessuna sorpresa"
-            lead="Dal primo contatto alla guida online in 48 ore."
+            lead="Dal modulo compilato alla guida pronta in 48 ore."
           />
           <ol className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {pricingSteps.map((step, index) => (

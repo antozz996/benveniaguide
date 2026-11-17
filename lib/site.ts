@@ -76,6 +76,8 @@ export const footerNavigation: { title: string; items: NavItem[] }[] = [
       { label: "Risorse", href: "/risorse" },
       { label: "Contatti", href: "/contatti" },
       { label: "Privacy", href: "/privacy" },
+      { label: "Condizioni del servizio", href: "/condizioni" },
+      { label: "Recesso", href: "/recesso" },
       { label: "Cookie policy", href: "/cookie-policy" },
     ],
   },
@@ -83,8 +85,8 @@ export const footerNavigation: { title: string; items: NavItem[] }[] = [
 
 /**
  * Configurazione commerciale da completare solo se e quando l'attività verrà
- * formalizzata (società/partita IVA). Con l'attività informale la privacy
- * identifica il titolare come "Benvenia Guide", contattabile via email.
+ * formalizzata (società/partita IVA). Con l'attività informale privacy e
+ * condizioni identificano il titolare (persona fisica) per nome ed email.
  */
 export const pendingLaunchConfig = [
   "Se l'attività viene formalizzata: aggiornare legalName, vatNumber, sede e il titolare in privacy",

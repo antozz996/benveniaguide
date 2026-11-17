@@ -10,6 +10,7 @@ import {
   settingOptions,
   type ModuloRequest,
 } from "@/lib/modulo";
+import { formatReceivedAt, type RecessoRequest } from "@/lib/recesso";
 
 function escapeHtml(value: string): string {
   return value
@@ -175,6 +176,23 @@ export function buildModuloEmail(data: ModuloRequest): {
         ["Note", data.notes],
       ],
     },
+    {
+      title: "Caselle spuntate (da riportare nella conferma d'ordine)",
+      rows: [
+        ["Accetta Condizioni e ha letto la privacy", "Sì"],
+        ["Chiede di iniziare subito (art. 50 c. 3)", data.immediateStart ? "Sì" : "No"],
+        [
+          "Prende atto della perdita del recesso a guida pubblicata (art. 59)",
+          data.waiverAck ? "Sì" : "No",
+        ],
+        [
+          "Pubblicazione",
+          data.immediateStart && data.waiverAck
+            ? "Dopo approvazione e pagamento"
+            : "Non prima di 14 giorni dall'ordine",
+        ],
+      ],
+    },
   ];
 
   const text = [
@@ -209,6 +227,75 @@ export function buildModuloEmail(data: ModuloRequest): {
     text,
     html,
   };
+}
+
+/** Email interna con la richiesta di recesso (/recesso). */
+export function buildRecessoTeamEmail(
+  data: RecessoRequest,
+  receivedAt: Date,
+): { subject: string; text: string; html: string } {
+  const { day, time } = formatReceivedAt(receivedAt);
+  const rows: [string, string][] = [
+    ["Ricevuta il", `${day} alle ${time}`],
+    ["Nome e cognome", data.name],
+    ["Struttura o numero d'ordine", data.order],
+    ["Email", data.email],
+    ["Data dell'ordine", data.orderDate],
+    ["Messaggio", data.message],
+  ];
+
+  const text = [
+    "Richiesta di recesso — Benvenia Guide",
+    "",
+    ...rows.map(([label, value]) => `${label}: ${value || "—"}`),
+    "",
+    "Al cliente è stata inviata la conferma automatica di ricezione.",
+    "Se ha già pagato: rimborso entro 14 giorni con lo stesso mezzo di pagamento.",
+  ].join("\n");
+
+  const row = (label: string, value: string) =>
+    `<tr><td style="padding:4px 12px 4px 0;color:#5f6f6a;vertical-align:top">${escapeHtml(label)}</td><td style="white-space:pre-wrap">${escapeHtml(value || "—")}</td></tr>`;
+
+  const html = `
+    <div style="font-family:Arial,Helvetica,sans-serif;color:#202827;line-height:1.6;max-width:560px">
+      <h1 style="font-size:18px;color:#152f2b">Richiesta di recesso — Benvenia Guide</h1>
+      <table style="border-collapse:collapse;font-size:14px">${rows
+        .map(([label, value]) => row(label, value))
+        .join("")}</table>
+      <p style="font-size:13px;color:#5f6f6a">Al cliente è stata inviata la conferma automatica di ricezione. Se ha già pagato: rimborso entro 14 giorni con lo stesso mezzo di pagamento.</p>
+    </div>
+  `;
+
+  return { subject: `Richiesta di recesso — ${data.order}`, text, html };
+}
+
+/** Conferma di ricezione del recesso al cliente, con data e ora (BENAA-48). */
+export function buildRecessoConfirmationEmail(
+  data: RecessoRequest,
+  receivedAt: Date,
+): { subject: string; text: string; html: string } {
+  const { day, time } = formatReceivedAt(receivedAt);
+  const subject = "Conferma di ricezione del recesso — Benvenia Guide";
+  const body = `abbiamo ricevuto il ${day} alle ${time} la tua richiesta di recesso per la guida di ${data.order}. Se hai già pagato ti rimborsiamo entro 14 giorni con lo stesso mezzo di pagamento. Per qualsiasi domanda rispondi a questa email.`;
+
+  const text = [
+    `Ciao ${data.name},`,
+    "",
+    body,
+    "",
+    "Antonio Avella, Benvenia Guide",
+    siteConfig.contact.email,
+  ].join("\n");
+
+  const html = `
+    <div style="font-family:Arial,Helvetica,sans-serif;color:#202827;line-height:1.6;max-width:560px">
+      <p style="font-size:14px">Ciao ${escapeHtml(data.name)},</p>
+      <p style="font-size:14px">${escapeHtml(body)}</p>
+      <p style="font-size:14px">Antonio Avella, Benvenia Guide<br />${escapeHtml(siteConfig.contact.email)}</p>
+    </div>
+  `;
+
+  return { subject, text, html };
 }
 
 /** In sviluppo il link viene mostrato nei log del server. In produzione no. */
