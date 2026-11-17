@@ -123,7 +123,7 @@ async function fillValidForm(page: Page) {
     .getByRole("group", { name: "Sei sostituto d'imposta?" })
     .getByLabel("No")
     .check();
-  await page.getByLabel(/acconsento al trattamento/).check();
+  await page.getByLabel(/accetto le Condizioni del servizio/).check();
 }
 
 test.describe("Modulo struttura — pagina", () => {
@@ -155,7 +155,7 @@ test.describe("Modulo struttura — pagina", () => {
     await expect(page.getByLabel("Numero di strutture")).toBeVisible();
   });
 
-  test("non chiede codici porta o keybox e linka la privacy", async ({
+  test("non chiede codici porta o keybox e linka privacy, condizioni e recesso", async ({
     page,
   }) => {
     await seedConsent(page);
@@ -166,6 +166,14 @@ test.describe("Modulo struttura — pagina", () => {
     await expect(
       page.getByRole("link", { name: "informativa privacy" }),
     ).toHaveAttribute("href", "/privacy");
+    await expect(
+      page.locator("form").getByRole("link", { name: "Condizioni del servizio" }),
+    ).toHaveAttribute("href", "/condizioni");
+    await expect(
+      page.locator("form").getByRole("link", { name: "Recesso", exact: true }),
+    ).toHaveAttribute("href", "/recesso");
+    await expect(page.getByLabel(/inizi subito/)).not.toBeChecked();
+    await expect(page.getByLabel(/perdo il diritto di recesso/)).not.toBeChecked();
   });
 
   test("l'invio a vuoto evidenzia i campi obbligatori", async ({ page }) => {
@@ -182,7 +190,7 @@ test.describe("Modulo struttura — pagina", () => {
       page.getByText(/codice fiscale \(16 caratteri\) o una partita IVA/),
     ).toBeVisible();
     await expect(
-      page.getByText(/prendere visione dell'informativa/),
+      page.getByText(/devi accettare le Condizioni del servizio/),
     ).toBeVisible();
     await expect(page.getByLabel("Pacchetto scelto")).toBeFocused();
   });
