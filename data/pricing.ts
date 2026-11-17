@@ -24,7 +24,7 @@ export const pricingPackages: PricingPackage[] = [
       "Guida in italiano per 1 struttura",
       "Benvenuto, check-in, Wi-Fi, regole e contatti",
       "QR code da condividere con gli ospiti",
-      "Online in 48 ore",
+      "Pronta in 48 ore",
     ],
   },
   {
@@ -108,7 +108,7 @@ export const pricingSteps: { number: string; title: string; description: string 
   },
   {
     number: "04",
-    title: "Online in 48 ore",
+    title: "Pronta in 48 ore",
     description: "Paghi una volta e ricevi link e QR code da condividere con gli ospiti.",
   },
 ];
