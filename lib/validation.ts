@@ -100,7 +100,8 @@ const leadFormFields = z.object({
   }),
 });
 
-function checkStructuresCount(
+/** Numero di strutture obbligatorio (da 3 in su) solo per Multi. */
+export function checkStructuresCount(
   data: { package: PackageId; structuresCount: string },
   ctx: z.RefinementCtx,
 ) {

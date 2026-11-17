@@ -109,12 +109,23 @@ export function isGuidePath(pathname: string | null | undefined): boolean {
   return typeof pathname === "string" && /^\/g(\/|$)/.test(pathname);
 }
 
+/**
+ * Pagine senza analytics: guide ospiti e modulo struttura (/modulo), che
+ * raccoglie dati dei clienti.
+ */
+export function isUntrackedPath(pathname: string | null | undefined): boolean {
+  return (
+    isGuidePath(pathname) ||
+    (typeof pathname === "string" && /^\/modulo(\/|$)/.test(pathname))
+  );
+}
+
 export function trackEvent(
   name: AnalyticsEventName,
   params: Record<string, unknown> = {},
 ): void {
   if (typeof window === "undefined") return;
-  if (isGuidePath(window.location.pathname)) return;
+  if (isUntrackedPath(window.location.pathname)) return;
   if (!hasAnalyticsConsent()) return;
   if (typeof window.gtag === "function") {
     window.gtag("event", name, params);

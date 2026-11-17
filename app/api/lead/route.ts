@@ -2,19 +2,11 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { buildLeadEmail } from "@/lib/emails";
 import { formatZodErrors, leadRequestSchema } from "@/lib/validation";
+import { getClientIp } from "@/lib/client-ip";
 import { rateLimit } from "@/lib/rate-limit";
 
 /** Tempo minimo di compilazione: sotto questa soglia la richiesta è sospetta. */
 const MIN_ELAPSED_MS = 1500;
-
-function getClientIp(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
-  }
-  return request.headers.get("x-real-ip")?.trim() || "unknown";
-}
 
 export async function POST(request: Request) {
   const ip = getClientIp(request);
