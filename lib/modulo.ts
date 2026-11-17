@@ -192,8 +192,13 @@ const moduloFields = z.object({
     .default(""),
   notes: optional(2000),
   privacy: z.literal(true, {
-    message: "Per inviare il modulo devi prendere visione dell'informativa.",
+    message:
+      "Per inviare il modulo devi accettare le Condizioni del servizio e leggere l'informativa privacy.",
   }),
+  /** Recesso (Condizioni, punto 9): richiesta di iniziare subito, art. 50 c. 3. */
+  immediateStart: z.boolean().default(false),
+  /** Presa d'atto della perdita del recesso a guida pubblicata, art. 59 c. 1 lett. a. */
+  waiverAck: z.boolean().default(false),
 });
 
 /** Schema dei campi visibili (validazione client e server). */
