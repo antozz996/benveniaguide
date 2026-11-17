@@ -10,8 +10,39 @@ const pages = [
   { path: "/risorse", title: "Risorse" },
   { path: "/contatti", title: "Contatti" },
   { path: "/privacy", title: "privacy" },
+  { path: "/condizioni", title: "Condizioni" },
   { path: "/cookie-policy", title: "Cookie" },
 ] as const;
+
+test.describe("Privacy e condizioni", () => {
+  test("le Condizioni sono linkate da footer, /prezzi e /contatti", async ({ page }) => {
+    await seedConsent(page);
+    for (const path of ["/", "/prezzi", "/contatti"]) {
+      await page.goto(path);
+      const scope = path === "/" ? page.locator("footer") : page.locator("main");
+      await expect(scope.locator('a[href="/condizioni"]').first()).toBeVisible();
+    }
+  });
+
+  test("privacy e condizioni non contengono segnaposto", async ({ page }) => {
+    await seedConsent(page);
+    for (const path of ["/privacy", "/condizioni"]) {
+      await page.goto(path);
+      const text = await page.locator("main").innerText();
+      expect(text).toContain("Antonio Avella");
+      expect(text).not.toMatch(/\[(Nome Cognome|GG mese AAAA|da verificare)\]|\{\{/);
+    }
+  });
+
+  test("le Condizioni riportano i giri di revisione approvati", async ({ page }) => {
+    await seedConsent(page);
+    await page.goto("/condizioni");
+    const main = page.locator("main");
+    await expect(main).toContainText("1 giro di revisione con il pacchetto Base");
+    await expect(main).toContainText("2 giri per struttura");
+    await expect(main.locator('a[href="/recesso"]')).toHaveCount(0);
+  });
+});
 
 test.describe("Pagine informative", () => {
   for (const { path, title } of pages) {
