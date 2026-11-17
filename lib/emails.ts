@@ -3,6 +3,13 @@ import { Resend } from "resend";
 import { MAGIC_LINK_TTL_MS } from "@/lib/auth/tokens";
 import { siteConfig } from "@/lib/site";
 import { packageLabel, type LeadRequest } from "@/lib/validation";
+import {
+  moduloPackageOptions,
+  optionLabel,
+  placeCategoryOptions,
+  settingOptions,
+  type ModuloRequest,
+} from "@/lib/modulo";
 
 function escapeHtml(value: string): string {
   return value
@@ -77,6 +84,128 @@ export function buildLeadEmail(data: LeadRequest): {
 
   return {
     subject: `Nuova richiesta (${packageLabel(data.package)}) — ${data.structureName}`,
+    text,
+    html,
+  };
+}
+
+/** Email interna con il riepilogo del modulo struttura (/modulo). */
+export function buildModuloEmail(data: ModuloRequest): {
+  subject: string;
+  text: string;
+  html: string;
+} {
+  const yesNo = (value: "si" | "no") => (value === "si" ? "Sì" : "No");
+  const pkgLabel = optionLabel(moduloPackageOptions, data.package);
+  const pkg =
+    data.package === "multi"
+      ? `${pkgLabel} — ${data.structuresCount} strutture`
+      : pkgLabel;
+
+  const sections: { title: string; rows: [string, string][] }[] = [
+    {
+      title: "Struttura",
+      rows: [
+        ["Pacchetto", pkg],
+        ["Nome struttura", data.structureName],
+        ["Località", data.location],
+        ["Frase di presentazione", data.tagline],
+        ["Messaggio di benvenuto", data.welcomeMessage],
+        ["Firma", data.signature],
+        ["Ambientazione", optionLabel(settingOptions, data.setting)],
+        ["Guida anche in inglese", yesNo(data.english)],
+      ],
+    },
+    {
+      title: "Soggiorno",
+      rows: [
+        ["Orario check-in", data.checkinTime],
+        ["Come avviene il check-in", data.checkinDetail],
+        ["Orario check-out", data.checkoutTime],
+        ["Istruzioni check-out", data.checkoutDetail],
+        ["Rete Wi-Fi", data.wifiNetwork],
+        ["Password Wi-Fi", data.wifiPassword],
+        ["Note Wi-Fi", data.wifiNote],
+        ["Parcheggio", data.parking],
+        ["Colazione", data.breakfast],
+        ["Altri servizi", data.services],
+        ["Raccolta differenziata", data.waste],
+        ["Regole della casa", data.rules],
+      ],
+    },
+    {
+      title: "Contatti per gli ospiti",
+      rows: [
+        ["Referente", data.hostContact],
+        ["Telefono / WhatsApp", data.guestPhone],
+        ["Email per gli ospiti", data.guestEmail],
+        ["Google Maps struttura", data.propertyMapsUrl],
+        ["Preferenze di contatto", data.contactPreference],
+        ["Numeri utili", data.usefulNumbers],
+        ["Domande frequenti", data.faq],
+      ],
+    },
+    {
+      title: `Luoghi consigliati (${data.places.length})`,
+      rows: data.places.map((place, index) => [
+        `${index + 1}. ${place.name}`,
+        [
+          optionLabel(placeCategoryOptions, place.category),
+          place.description,
+          place.mapsUrl,
+        ]
+          .filter(Boolean)
+          .join(" — "),
+      ]),
+    },
+    {
+      title: "Dati per la ricevuta",
+      rows: [
+        ["Nome o ragione sociale", data.billingName],
+        ["Codice fiscale / P.IVA", data.taxCode],
+        ["Indirizzo", data.billingAddress],
+        ["Sostituto d'imposta", yesNo(data.withholdingAgent)],
+        ["Email del cliente", data.clientEmail],
+      ],
+    },
+    {
+      title: "Chiusura",
+      rows: [
+        ["Indirizzo guida desiderato", data.slug],
+        ["Note", data.notes],
+      ],
+    },
+  ];
+
+  const text = [
+    "Modulo struttura compilato — Benvenia Guide",
+    ...sections.flatMap((section) => [
+      "",
+      `== ${section.title} ==`,
+      ...section.rows.map(([label, value]) => `${label}: ${value || "—"}`),
+    ]),
+  ].join("\n");
+
+  const row = (label: string, value: string) =>
+    `<tr><td style="padding:4px 12px 4px 0;color:#5f6f6a;vertical-align:top">${escapeHtml(label)}</td><td style="white-space:pre-wrap">${escapeHtml(value || "—")}</td></tr>`;
+
+  const html = `
+    <div style="font-family:Arial,Helvetica,sans-serif;color:#202827;line-height:1.6;max-width:640px">
+      <h1 style="font-size:18px;color:#152f2b">Modulo struttura compilato — Benvenia Guide</h1>
+      ${sections
+        .map(
+          (section) => `
+      <h2 style="font-size:14px;color:#152f2b;margin-top:20px">${escapeHtml(section.title)}</h2>
+      <table style="border-collapse:collapse;font-size:14px">${section.rows
+        .map(([label, value]) => row(label, value))
+        .join("")}</table>`,
+        )
+        .join("")}
+    </div>
+  `;
+
+  return {
+    subject: `Modulo struttura (${pkgLabel.split(" — ")[0]}) — ${data.structureName}`,
     text,
     html,
   };

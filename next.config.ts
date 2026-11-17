@@ -47,6 +47,11 @@ const nextConfig: NextConfig = {
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
       {
+        // Modulo struttura per i clienti: link privato, mai indicizzato.
+        source: "/modulo",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
         // Le pagine di contenuto non contengono dati sensibili: cache CDN generosa.
         source: "/(privacy|cookie-policy|prezzi|soluzioni|funzionalita|come-funziona)(.*)",
         headers: [

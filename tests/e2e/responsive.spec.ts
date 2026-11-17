@@ -8,7 +8,14 @@ const viewports = [
   { width: 1440, height: 900, label: "desktop" },
 ] as const;
 
-const checkPages = ["/", "/demo", "/contatti", "/prezzi", "/risorse"] as const;
+const checkPages = [
+  "/",
+  "/demo",
+  "/contatti",
+  "/prezzi",
+  "/risorse",
+  "/modulo",
+] as const;
 
 for (const viewport of viewports) {
   test.describe(`Responsività ${viewport.label} (${viewport.width}px)`, () => {
