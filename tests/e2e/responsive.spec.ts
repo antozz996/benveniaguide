@@ -15,6 +15,8 @@ const checkPages = [
   "/prezzi",
   "/risorse",
   "/modulo",
+  "/privacy",
+  "/condizioni",
 ] as const;
 
 for (const viewport of viewports) {
