@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { CalendarCheck, Clock3, Mail } from "lucide-react";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHero } from "@/components/PageHero";
@@ -156,6 +157,23 @@ export default function ContattiPage() {
                     esclusivamente per rispondere alla tua richiesta. Non
                     iscriviamo nessuno a liste commerciali in automatico e non
                     cediamo i contatti a terzi.
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-ivory/75">
+                    Leggi l&apos;
+                    <Link
+                      href="/privacy"
+                      className="font-medium text-ivory underline underline-offset-2"
+                    >
+                      Informativa privacy
+                    </Link>{" "}
+                    e le{" "}
+                    <Link
+                      href="/condizioni"
+                      className="font-medium text-ivory underline underline-offset-2"
+                    >
+                      Condizioni del servizio
+                    </Link>
+                    .
                   </p>
                 </div>
               </Reveal>
