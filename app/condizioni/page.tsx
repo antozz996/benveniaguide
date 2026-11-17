@@ -4,6 +4,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { Container } from "@/components/ui/Container";
 import { buildMetadata } from "@/lib/metadata";
+import { withdrawalFormLines } from "@/lib/recesso";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = buildMetadata({
@@ -51,15 +52,6 @@ const packages: { name: string; price: string; includes: string }[] = [
     includes:
       "Un aggiornamento di contenuti già presenti (orari, Wi-Fi, luoghi consigliati). Le sezioni nuove si concordano a parte",
   },
-];
-
-const withdrawalForm = [
-  "Destinatario: Antonio Avella, Benvenia Guide, info@benveniaguide.it",
-  "Con la presente io/noi notifico/notifichiamo il recesso dal mio/nostro contratto per la prestazione del seguente servizio: guida digitale per gli ospiti, pacchetto [ ], struttura [ ]",
-  "Ordinato il: [ ]",
-  "Nome del/dei consumatore/i: [ ]",
-  "Indirizzo del/dei consumatore/i: [ ]",
-  "Data: [ ]",
 ];
 
 export default function CondizioniPage() {
@@ -297,9 +289,13 @@ export default function CondizioniPage() {
                   </li>
                 </ul>
                 <p className={paragraph}>
-                  <strong>Come recedere:</strong> mandaci una dichiarazione
-                  esplicita a {email}, anche con il modulo qui sotto. Ti
-                  confermiamo la ricezione per email.
+                  <strong>Come recedere:</strong> usa il pulsante{" "}
+                  <Link href="/recesso" className={`${link} font-semibold`}>
+                    Recedi dal contratto qui
+                  </Link>
+                  , oppure mandaci una dichiarazione esplicita a {email}, anche
+                  con il modulo qui sotto. Ti confermiamo la ricezione per
+                  email.
                 </p>
                 <div className="mt-5 rounded-2xl border border-dashed border-forest/25 bg-paper p-5">
                   <p className="text-sm font-semibold text-forest">
@@ -310,7 +306,7 @@ export default function CondizioniPage() {
                     </span>
                   </p>
                   <ul className="mt-3 space-y-1.5 text-sm leading-relaxed break-words text-charcoal">
-                    {withdrawalForm.map((line) => (
+                    {withdrawalFormLines.map((line) => (
                       <li key={line}>{line}</li>
                     ))}
                   </ul>

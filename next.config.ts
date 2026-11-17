@@ -53,7 +53,7 @@ const nextConfig: NextConfig = {
       },
       {
         // Le pagine di contenuto non contengono dati sensibili: cache CDN generosa.
-        source: "/(privacy|condizioni|cookie-policy|prezzi|soluzioni|funzionalita|come-funziona)(.*)",
+        source: "/(privacy|condizioni|recesso|cookie-policy|prezzi|soluzioni|funzionalita|come-funziona)(.*)",
         headers: [
           {
             key: "Cache-Control",
