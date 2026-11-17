@@ -140,6 +140,13 @@ export default function PrezziPage() {
               >
                 Condizioni del servizio
               </Link>
+              . Se sei un consumatore puoi anche{" "}
+              <Link
+                href="/recesso"
+                className="font-medium text-forest underline underline-offset-2"
+              >
+                recedere dal contratto
+              </Link>
               .
             </li>
           </ul>

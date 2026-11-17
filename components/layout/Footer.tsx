@@ -56,6 +56,9 @@ export function Footer() {
             >
               Condizioni
             </Link>
+            <Link href="/recesso" className="transition-colors hover:text-ivory">
+              Recesso
+            </Link>
             <Link
               href="/cookie-policy"
               className="transition-colors hover:text-ivory"

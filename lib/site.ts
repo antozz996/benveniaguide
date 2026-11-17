@@ -77,6 +77,7 @@ export const footerNavigation: { title: string; items: NavItem[] }[] = [
       { label: "Contatti", href: "/contatti" },
       { label: "Privacy", href: "/privacy" },
       { label: "Condizioni del servizio", href: "/condizioni" },
+      { label: "Recesso", href: "/recesso" },
       { label: "Cookie policy", href: "/cookie-policy" },
     ],
   },

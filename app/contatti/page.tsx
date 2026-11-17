@@ -173,6 +173,13 @@ export default function ContattiPage() {
                     >
                       Condizioni del servizio
                     </Link>
+                    . Per recedere da un ordine usa la pagina{" "}
+                    <Link
+                      href="/recesso"
+                      className="font-medium text-ivory underline underline-offset-2"
+                    >
+                      Recesso
+                    </Link>
                     .
                   </p>
                 </div>
