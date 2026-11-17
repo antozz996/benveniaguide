@@ -51,6 +51,12 @@ export function Footer() {
               Privacy
             </Link>
             <Link
+              href="/condizioni"
+              className="transition-colors hover:text-ivory"
+            >
+              Condizioni
+            </Link>
+            <Link
               href="/cookie-policy"
               className="transition-colors hover:text-ivory"
             >
